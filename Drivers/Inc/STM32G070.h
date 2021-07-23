@@ -114,4 +114,17 @@ typedef struct
 	volatile uint32_t BDCR;
 	volatile uint32_t CSR;
 }RCC_RegDef_t;
+
+/* peripheral definitions(peripheral base addresses typecasted to xxx_RegDef_t) */
+
+#define GPIOA 								((GPIO_RegDef_t *)GPIOA_BASEADDR)
+#define GPIOB 								((GPIO_RegDef_t*)GPIOB_BASEADDR)
+#define GPIOC 								((GPIO_RegDef_t*)GPIOC_BASEADDR)
+#define GPIOD 								((GPIO_RegDef_t*)GPIOD_BASEADDR)
+#define GPIOE 								((GPIO_RegDef_t*)GPIOE_BASEADDR)
+#define GPIOF 								((GPIO_RegDef_t*)GPIOF_BASEADDR)
+
+#define RCC									((RCC_RegDef_t*)RCC_BASE_ADDR)
+
+
 #endif /* INC_STM32G070_H_ */
