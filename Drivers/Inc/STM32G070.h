@@ -8,7 +8,6 @@
 #ifndef INC_STM32G070_H_
 #define INC_STM32G070_H_
 #include <stdint.h>
-
 /*Base addresses of flash and SRAM memory*/
 
 #define FLASH_BASEADDR						0x08000000U
@@ -33,12 +32,12 @@
 #define GPIOF_BASEADDR						(IOPORT_BASE + 0x1400)
 
 /* Base addresses on peripherals hanging on AHB1 bus */
-#define DMA1_BASE_ADDR 						(AHB1PERIPH_BASE + Ox0000)
-#define DMA2_BASE_ADDR 						(AHB1PERIPH_BASE + Ox0400)
-#define RCC_BASE_ADDR 						(AHB1PERIPH_BASE + Ox1000)
-#define EXTI_BASE_ADDR						(AHB1PERIPH_BASE + Ox1800)
-#define FLASH_BASE_ADDR						(AHB1PERIPH_BASE + Ox2000)
-#define CRC_BASE_ADDR 						(AHB1PERIPH_BASE + Ox3000)
+#define DMA1_BASE_ADDR 						(AHB1PERIPH_BASE + 0x0000)
+#define DMA2_BASE_ADDR 						(AHB1PERIPH_BASE + 0x0400)
+#define RCC_BASE_ADDR 						(AHB1PERIPH_BASE + 0x1000)
+#define EXTI_BASE_ADDR						(AHB1PERIPH_BASE + 0x1800)
+#define FLASH_BASE_ADDR						(AHB1PERIPH_BASE + 0x2000)
+#define CRC_BASE_ADDR 						(AHB1PERIPH_BASE + 0x3000)
 
 /* Base addresses on peripherals hanging on APB1 bus */
 #define TIMER3_BASE_ADDR					(APB1PERIPH_BASE + 0x0400)
@@ -55,27 +54,21 @@
 #define I2C1_BASE_ADDR						(APB1PERIPH_BASE + 0x5400)
 #define I2C2_BASE_ADDR						(APB1PERIPH_BASE + 0x5800)
 #define USB_BASE_ADDR						(APB1PERIPH_BASE + 0x5C00)
-#define I2C3_BASE_ADDR						(APB1PERIPH_BASE + 0x5C00)
-#define SYSCFG_BASE_ADDR					(APB1PERIPH_BASE + 0x5C00)
-#define ADC_BASE_ADDR						(APB1PERIPH_BASE + 0x5C00)
-#define TIM1_BASE_ADDR						(APB1PERIPH_BASE + 0x5C00)
-#define SPI1_BASE_ADDR						(APB1PERIPH_BASE + 0x5C00)
+#define I2C3_BASE_ADDR						(APB1PERIPH_BASE + 0x8800)
+
 
 /* Base addresses on peripherals hanging on APB2 bus */
+#define SYSCFG_BASE_ADDR					(APB2PERIPH_BASE + 0x0000)
+#define ADC_BASE_ADDR						(APB2PERIPH_BASE + 0x2400)
+#define TIM1_BASE_ADDR						(APB2PERIPH_BASE + 0x2C00)
+#define SPI1_BASE_ADDR						(APB2PERIPH_BASE + 0x3000)
 #define USART1_BASE_ADDR 					(APB2PERIPH_BASE + Ox3800)
 #define USART6_BASE_ADDR					(APB2PERIPH_BASE + Ox3C00)
 #define TIMER15_BASE_ADDR					(APB2PERIPH_BASE + Ox4000)
 #define TIMER16_BASE_ADDR					(APB2PERIPH_BASE + Ox4400)
 #define TIMER17_BASE_ADDR					(APB2PERIPH_BASE + Ox4800)
 
-/* peripheral definitions(peripheral base addresses typecasted to xxx_RegDef_t) */
 
-#define GPIOA 								((GPIO_RegDef_t*) GPIOA_BASEADDR)
-#define GPIOB 								((GPIO_RegDef_t*) GPIOB_BASEADDR)
-#define GPIOC 								((GPIO_RegDef_t*) GPIOC_BASEADDR)
-#define GPIOD 								((GPIO_RegDef_t*) GPIOD_BASEADDR)
-#define GPIOE 								((GPIO_RegDef_t*) GPIOE_BASEADDR)
-#define GPIOF 								((GPIO_RegDef_t*) GPIOF_BASEADDR)
 /**************************************Peripheral register Definition structures *****************************************************************/
 
 /* Peripheral register definition structure for GPIO*/
