@@ -127,4 +127,63 @@ typedef struct
 #define RCC									((RCC_RegDef_t*)RCC_BASE_ADDR)
 
 
+/* Clock enable Macros for GPIO peripherals */
+#define GPIOA_PCLOCK_EN()					(RCC->IOPENR |= (1<<0))
+#define GPIOB_PCLOCK_EN()					(RCC->IOPENR |= (1<<1))
+#define GPIOC_PCLOCK_EN()					(RCC->IOPENR |= (1<<2))
+#define GPIOD_PCLOCK_EN()					(RCC->IOPENR |= (1<<3))
+#define GPIOE_PCLOCK_EN()					(RCC->IOPENR |= (1<<4))
+#define GPIOF_PCLOCK_EN()					(RCC->IOPENR |= (1<<5))
+
+
+/* Clock enable Macros for I2C peripherals */
+#define I2C1_PCLOCK_EN()					(RCC->APBENR1 |= (1<<21))
+#define I2C2_PCLOCK_EN()					(RCC->APBENR1 |= (1<<22))
+#define I2C3_PCLOCK_EN()					(RCC->APBENR1 |= (1<<23))
+
+/* Clock enable Macros for SPI peripherals */
+#define SPI1_PCLOCK_EN()					(RCC->APBENR2 |= (1<<12))
+#define SPI2_PCLOCK_EN()					(RCC->APBENR1 |= (1<<14))
+#define SPI3_PCLOCK_EN()					(RCC->APBENR1 |= (1<<15))
+
+/* Clock enable Macros for USART peripherals */
+#define USART1_PCLOCK_EN()					(RCC->APBENR2 |= (1<<14))
+#define USART2_PCLOCK_EN()					(RCC->APBENR1 |= (1<<17))
+#define USART3_PCLOCK_EN()					(RCC->APBENR1 |= (1<<18))
+#define USART4_PCLOCK_EN()					(RCC->APBENR1 |= (1<<19))
+#define USART5_PCLOCK_EN()					(RCC->APBENR1 |= (1<<8))
+#define USART6_PCLOCK_EN()					(RCC->APBENR1 |= (1<<9))
+
+/* Clock enable Macros for SYSCFG peripherals */
+#define SYSCFG_PCLOCK_EN()					(RCC->APBENR2 |= (1<<0))
+
+/* Clock disable Macros for GPIO peripherals */
+#define GPIOA_PCLOCK_DI()					(RCC->IOPENR &= ~(1<<0))
+#define GPIOB_PCLOCK_DI()					(RCC->IOPENR &= ~(1<<1))
+#define GPIOC_PCLOCK_DI()					(RCC->IOPENR &= ~(1<<2))
+#define GPIOD_PCLOCK_DI()					(RCC->IOPENR &= ~(1<<3))
+#define GPIOE_PCLOCK_DI()					(RCC->IOPENR &= ~(1<<4))
+#define GPIOF_PCLOCK_DI()					(RCC->IOPENR &= ~(1<<5))
+
+
+/* Clock disable Macros for I2C peripherals */
+#define I2C1_PCLOCK_DI()					(RCC->APBENR1 &= ~(1<<21))
+#define I2C2_PCLOCK_DI()					(RCC->APBENR1 &= ~(1<<22))
+#define I2C3_PCLOCK_DI()					(RCC->APBENR1 &= ~(1<<23))
+
+/* Clock disable Macros for SPI peripherals */
+#define SPI1_PCLOCK_DI()					(RCC->APBENR2 &= ~(1<<12))
+#define SPI2_PCLOCK_DI()					(RCC->APBENR1 &= ~(1<<14))
+#define SPI3_PCLOCK_DI()					(RCC->APBENR1 &= ~(1<<15))
+
+/* Clock disable Macros for USART peripherals */
+#define USART1_PCLOCK_DI()					(RCC->APBENR2 &= ~(1<<14))
+#define USART2_PCLOCK_DI()					(RCC->APBENR1 &= ~(1<<17))
+#define USART3_PCLOCK_DI()					(RCC->APBENR1 &= ~(1<<18))
+#define USART4_PCLOCK_DI()					(RCC->APBENR1 &= ~(1<<19))
+#define USART5_PCLOCK_DI()					(RCC->APBENR1 &= ~(1<<8))
+#define USART6_PCLOCK_DI()					(RCC->APBENR1 &= ~(1<<9))
+
+/* Clock disable Macros for SYSCFG peripherals */
+#define SYSCFG_PCLOCK_DI()					(RCC->APBENR2 &= ~(1<<0))
 #endif /* INC_STM32G070_H_ */
