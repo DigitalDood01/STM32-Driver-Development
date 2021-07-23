@@ -87,4 +87,31 @@ typedef struct
 }GPIO_RegDef_t;
 
 
+/* Register definition structure for RCC(Reset Clock Control)*/
+typedef struct
+{
+	volatile uint32_t CR;
+	volatile uint32_t ICSCR;
+	volatile uint32_t CFGR;
+	volatile uint32_t PLL_CFGR;
+	volatile uint32_t CIER;
+	volatile uint32_t CIFR;
+	volatile uint32_t CICR;
+	volatile uint32_t IOPRSTR;
+	volatile uint32_t AHBRSTR;
+	volatile uint32_t APBRSTR1;
+	volatile uint32_t APBRSTR2;
+	volatile uint32_t IOPENR;
+	volatile uint32_t AHBENR;
+	volatile uint32_t APBENR1;
+	volatile uint32_t APBENR2;
+	volatile uint32_t IPOSMENR;
+	volatile uint32_t AHBSMENR;
+	volatile uint32_t APBSMENR1;
+	volatile uint32_t APBSMENR2;
+	volatile uint32_t CCIPR;
+	volatile uint32_t CCIPR2;
+	volatile uint32_t BDCR;
+	volatile uint32_t CSR;
+}RCC_RegDef_t;
 #endif /* INC_STM32G070_H_ */
