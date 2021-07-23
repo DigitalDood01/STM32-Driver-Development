@@ -66,4 +66,23 @@
 #define TIMER15_BASE_ADDR					(APB2PERIPH_BASE + Ox4000)
 #define TIMER16_BASE_ADDR					(APB2PERIPH_BASE + Ox4400)
 #define TIMER17_BASE_ADDR					(APB2PERIPH_BASE + Ox4800)
+
+/**************************************Peripheral register Definition structures *****************************************************************/
+
+/* Peripheral register definition structure for GPIO*/
+typedef struct
+{
+	volatile uint32_t MODER; 				/* volatile type qualifier is used to make variables compliant from reading from processor everytime*/
+	volatile uint32_t OTYPER;
+	volatile uint32_t OSPEEDR;
+	volatile uint32_t PUPDR;
+	volatile uint32_t IDR;
+	volatile uint32_t ODR;
+	volatile uint32_t BSRR;
+	volatile uint32_t LCKR;
+	volatile uint32_t AFR[2];
+	volatile uint32_t BRR;
+}GPIO_RegDef_t;
+
+
 #endif /* INC_STM32G070_H_ */
