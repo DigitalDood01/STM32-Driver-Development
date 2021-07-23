@@ -1,0 +1,11 @@
+/startup
+/debug
+/Drivers
+/.settings
+.cproject
+.project
+/Release
+STM32F_Driver_Development (1).launch
+STM32F_Driver_Development.cfg
+STM32F_Driver_Development.launch
+STM32G070RBTX_FLASH.ld
