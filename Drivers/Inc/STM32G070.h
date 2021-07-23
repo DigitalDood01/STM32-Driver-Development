@@ -30,4 +30,12 @@
 #define GPIOD_BASEADDR						(IOPORT_BASE + 0x0C00)
 #define GPIOE_BASEADDR						(IOPORT_BASE + 0x1000)
 #define GPIOF_BASEADDR						(IOPORT_BASE + 0x1400)
+
+/* Base addresses on peripherals hanging on AHB1 bus */
+#define DMA1_BASE_ADDR 						(AHB1PERIPH_BASE + Ox0000)
+#define DMA2_BASE_ADDR 						(AHB1PERIPH_BASE + Ox0400)
+#define RCC_BASE_ADDR 						(AHB1PERIPH_BASE + Ox1000)
+#define EXTI_BASE_ADDR						(AHB1PERIPH_BASE + Ox1800)
+#define FLASH_BASE_ADDR						(AHB1PERIPH_BASE + Ox2000)
+#define CRC_BASE_ADDR 						(AHB1PERIPH_BASE + Ox3000)
 #endif /* INC_STM32G070_H_ */
