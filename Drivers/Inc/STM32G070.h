@@ -7,6 +7,7 @@
 
 #ifndef INC_STM32G070_H_
 #define INC_STM32G070_H_
+#include <stdint.h>
 
 /*Base addresses of flash and SRAM memory*/
 
