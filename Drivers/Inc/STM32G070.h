@@ -23,4 +23,11 @@
 #define AHB1PERIPH_BASE 					0x40020000U
 #define IOPORT_BASE							0x50000000U
 
+/* Base addresses of IO port peripherals*/
+#define GPIOA_BASEADDR						(IOPORT_BASE + 0x0000)
+#define GPIOB_BASEADDR						(IOPORT_BASE + 0x0400)
+#define GPIOC_BASEADDR						(IOPORT_BASE + 0x0800)
+#define GPIOD_BASEADDR						(IOPORT_BASE + 0x0C00)
+#define GPIOE_BASEADDR						(IOPORT_BASE + 0x1000)
+#define GPIOF_BASEADDR						(IOPORT_BASE + 0x1400)
 #endif /* INC_STM32G070_H_ */
