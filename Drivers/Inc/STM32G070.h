@@ -186,4 +186,12 @@ typedef struct
 
 /* Clock disable Macros for SYSCFG peripherals */
 #define SYSCFG_PCLOCK_DI()					(RCC->APBENR2 &= ~(1<<0))
+
+
+/* Some generic Macros*/
+
+#define ENABLE 								1
+#define DISABLE 							0
+#define SET 								ENABLE
+#define RESET 								DISABLE
 #endif /* INC_STM32G070_H_ */
