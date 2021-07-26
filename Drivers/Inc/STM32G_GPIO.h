@@ -35,25 +35,25 @@ typedef struct
 
 /* Peripheral clock setup */
 
-void GPIO_PeriClkCtrl(void);
+void GPIO_PeriClkCtrl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi);
 
 /* Init and DeInit*/
 
-void GPIO_Init(void);
-void GPIO_DeInit(void);
+void GPIO_Init(GPIO_Handle_t *pGPIO_Handle);
+void GPIO_DeInit(GPIO_RegDef_t *pGPIOx);							/* Resetting the GPIO register to the default values*/
 
 /* Data read and Write*/
 
-void GPIO_ReadfromInputPin(void);
-void GPIO_ReadfromInputPort(void);
-void GPIO_WritetoOutputPin(void);
-void GPIO_WritetoOutputPort(void);
-void GPIO_ToggleOutputPin(void);
+uint8_t GPIO_ReadfromInputPin(GPIO_RegDef_t *pGIOx, uint8_t PinNumber);
+uint16_t GPIO_ReadfromInputPort(GPIO_RegDef_t *pGIOx);							/* Port is of 16 pins*/
+void GPIO_WritetoOutputPin(GPIO_RegDef_t *pGIOx, uint8_t PinNumber, uint8_t value);
+void GPIO_WritetoOutputPort(GPIO_RegDef_t *pGIOx, uint16_t value);
+void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGIOx, uint8_t PinNumber);
 
 /* IRQ handling and Configuration*/
 
-void GPIOIRQ_Config(void);								/* This function enables the interrupt, setting up the IRQ number*/
-void GPIOIQ_Handling(void); 							/*this function handles the interrupt*/
+void GPIOIRQ_Config(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EnorDi);								/* This function enables the interrupt, setting up the IRQ number*/
+void GPIOIQ_Handling(uint8_t PinNumber); 							/*this function handles the interrupt of the GPIO pin number */
 
 
 #endif /* INC_STM32G_GPIO_H_ */
