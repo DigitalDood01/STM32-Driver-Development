@@ -52,7 +52,7 @@ void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGIOx, uint8_t PinNumber);
 
 /* IRQ handling and Configuration*/
 
-void GPIOIRQ_Config(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EnorDi);								/* This function enables the interrupt, setting up the IRQ number*/
+void GPIOIRQ_Config(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EnorDi);/* This function enables the interrupt, setting up the IRQ number*/
 void GPIOIRQ_Handling(uint8_t PinNumber); 							/*this function handles the interrupt of the GPIO pin number */
 
 
