@@ -25,7 +25,15 @@
 
 void GPIO_Init(GPIO_Handle_t *pGPIO_Handle)
 {
+	/* 1. Configure the mode of GPIO pin */
 
+	/* 2. Configure the speed */
+
+	/* 3. Configure the PullUp/PullDown setting */
+
+	/* 4. Configure the output type */
+
+	/* 5. Configure the alternate functionality */
 }
 
 /*********************************************************************************************************************************

@@ -31,6 +31,54 @@ typedef struct
 
 }GPIO_Handle_t;
 
+/* Macros for pin numbers of GPIO port */
+
+#define GPIO_PIN_NO0 				0
+#define GPIO_PIN_NO1 				1
+#define GPIO_PIN_NO2 				2
+#define GPIO_PIN_NO3 				3
+#define GPIO_PIN_NO4 				4
+#define GPIO_PIN_NO5 				5
+#define GPIO_PIN_NO6 				6
+#define GPIO_PIN_NO7 				7
+#define GPIO_PIN_NO8 				8
+#define GPIO_PIN_NO9 				9
+#define GPIO_PIN_NO10 				10
+#define GPIO_PIN_NO11 				11
+#define GPIO_PIN_NO12 				12
+#define GPIO_PIN_NO13 				13
+#define GPIO_PIN_NO14 				14
+#define GPIO_PIN_NO15 				15
+
+/* Macros for the different possible  modes in GPIO peripherals*/
+
+#define GPIO_Mode_Input 			0
+#define GPIO_Mode_Output 			1
+#define GPIO_Mode_Alt_Fun			2
+#define GPIO_Mode_Analog 			3
+#define GPIO_Mode_IP_FT 			4 				/* IP_FT = Input falling edge  */
+#define GPIO_Mode_IP_RT 			5 				/* IP_RT = Input raising edge */
+#define GPIO_Mode_IP_RFT 			6 				/* IP_RFT = Input falling/raising edge */
+
+/* Macros for possible GPIO output types */
+
+#define GPIO_OP_TYPE_PUSHPULL		0
+#define GPIO_OP_TYPE_OPENDRAIN		1
+
+/* Macros for different speed modes in GPIO */
+
+#define GPIO_SPEED_VERYLOW			0
+#define GPIO_SPEED_LOW				1
+#define GPIO_SPEED_HIGH				2
+#define GPIO_SPEED_VERYHIGH			3
+
+/* Macros for GPIO pullup/pulldown configuration */
+
+#define GPIO_NO_PUPD				0
+#define GPIO_PULLUP					1
+#define GPIO_PULLDOWN				2
+
+
 /***************************************************APIs supported by this driver******************************************************************/
 
 /* Peripheral clock setup */
