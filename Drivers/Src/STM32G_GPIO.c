@@ -293,7 +293,7 @@ void GPIO_WritetoOutputPort(GPIO_RegDef_t *pGIOx, uint16_t value)
  * Note 						-
  */
 
-void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGIOx, uint8_t PinNumber)
+void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
 {
 
 }
