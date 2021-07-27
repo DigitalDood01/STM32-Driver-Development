@@ -92,8 +92,8 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx);							/* Resetting the GPIO register to
 
 /* Data read and Write*/
 
-uint8_t GPIO_ReadfromInputPin(GPIO_RegDef_t *pGIOx, uint8_t PinNumber);
-uint16_t GPIO_ReadfromInputPort(GPIO_RegDef_t *pGIOx);							/* Port is of 16 pins*/
+uint8_t GPIO_ReadfromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);
+uint16_t GPIO_ReadfromInputPort(GPIO_RegDef_t *pGPIOx);							/* Port is of 16 pins*/
 void GPIO_WritetoOutputPin(GPIO_RegDef_t *pGIOx, uint8_t PinNumber, uint8_t value);
 void GPIO_WritetoOutputPort(GPIO_RegDef_t *pGIOx, uint16_t value);
 void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGIOx, uint8_t PinNumber);
