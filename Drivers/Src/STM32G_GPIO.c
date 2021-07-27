@@ -64,7 +64,11 @@ void GPIO_Init(GPIO_Handle_t *pGPIO_Handle)
 	/* 5. Configure the alternate functionality */
 	if(pGPIO_Handle->GPIO_PinConfig.GPIO_PinMode == GPIO_Mode_Alt_Fun)
 	{
-
+		uint8_t temp1, temp2;
+		temp1 = pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber / 8; 	/* to find which AFR register divide pin number by 8 */
+		temp2 = pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber % 8;	/* to find position to be written in register take modulo of pin number by 8 */
+		pGPIO_Handle->pGPIOx->AFR[temp1] &= ~(0xF <<(4* temp2));	/* Ensuring that the required bit positions are cleared before setting it */
+		pGPIO_Handle->pGPIOx->AFR[temp1] |= pGPIO_Handle->GPIO_PinConfig.GPIO_PinAltFunMode <<(4* temp2);
 	}
 }
 
