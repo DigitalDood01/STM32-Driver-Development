@@ -226,10 +226,15 @@ uint8_t GPIO_ReadfromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
  * Note 						- the output read is of uint16_t type because there are 16 pins
  */
 
-uint16_t GPIO_ReadfromInputPort(GPIO_RegDef_t *pGIOx)
+uint16_t GPIO_ReadfromInputPort(GPIO_RegDef_t *pGPIOx)
 {
 	/* Port is of 16 pins*/
-	return 0;
+	uint16_t value;
+
+	value = (uint16_t)pGPIOx->IDR;
+
+	return value;
+
 }
 
 
