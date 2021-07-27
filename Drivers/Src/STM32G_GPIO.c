@@ -253,9 +253,18 @@ uint16_t GPIO_ReadfromInputPort(GPIO_RegDef_t *pGPIOx)
  * Note 						-
  */
 
-void GPIO_WritetoOutputPin(GPIO_RegDef_t *pGIOx, uint8_t PinNumber, uint8_t value)
+void GPIO_WritetoOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t value)
 {
-
+	if(value == SET)
+	{
+		/* write 1 to the output data register at the bit field corresponding to the pin number */
+		pGPIOx->ODR |= (1<<PinNumber);
+	}
+	else
+	{
+		/* write 0 to the output data register at the bit field corresponding to the pin number */
+		pGPIOx->ODR &= ~(1<<PinNumber);
+	}
 }
 
 /*********************************************************************************************************************************
