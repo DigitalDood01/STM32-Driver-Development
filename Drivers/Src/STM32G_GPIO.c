@@ -304,7 +304,7 @@ void GPIO_WritetoOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t value)
 
 void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
 {
-
+	pGPIOx->ODR ^=(1<<PinNumber); /* ExOR operator is used to toggle the pin*/
 }
 
 /*********************************************************************************************************************************
