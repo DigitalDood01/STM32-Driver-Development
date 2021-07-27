@@ -20,20 +20,48 @@
  *
  * Return 						-  None
  *
- * Note 						-
+ * Note 						-  Bit wise OR is used to set the respective registers so that only the required bit positions are set
+ * 								   and leaves the other bit positions as untouched
  */
 
 void GPIO_Init(GPIO_Handle_t *pGPIO_Handle)
 {
+	uint32_t temp = 0;
 	/* 1. Configure the mode of GPIO pin */
 
+	if(pGPIO_Handle->GPIO_PinConfig.GPIO_PinMode<= GPIO_Mode_Analog)
+	{
+		temp = pGPIO_Handle->GPIO_PinConfig.GPIO_PinMode <<(2*pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber); /* each pin takes 2 bit fields so it is multiplied by 2*/
+		pGPIO_Handle->pGPIOx->MODER |= temp;  /* set the actual register based on the mode */
+
+		/* Non interrupt mode */
+
+	}
+	else
+	{
+		/*to be programmed later(Interrupt mode) */
+	}
+	temp = 0;
 	/* 2. Configure the speed */
+	temp = pGPIO_Handle->GPIO_PinConfig.GPIO_PinSpeed <<(2*pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);
+	pGPIO_Handle->pGPIOx->OSPEEDR |= temp;
+	temp = 0;
 
 	/* 3. Configure the PullUp/PullDown setting */
+	temp = pGPIO_Handle->GPIO_PinConfig.GPIO_PinPuPdControl <<(2*pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);
+	pGPIO_Handle->pGPIOx->PUPDR |= temp;
+	temp = 0;
 
 	/* 4. Configure the output type */
+	temp = pGPIO_Handle->GPIO_PinConfig.GPIO_PinOPType <<(pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);
+	pGPIO_Handle->pGPIOx->OTYPER |= temp;
+	temp = 0;
 
 	/* 5. Configure the alternate functionality */
+	if(pGPIO_Handle->GPIO_PinConfig.GPIO_PinMode == GPIO_Mode_Alt_Fun)
+	{
+
+	}
 }
 
 /*********************************************************************************************************************************
