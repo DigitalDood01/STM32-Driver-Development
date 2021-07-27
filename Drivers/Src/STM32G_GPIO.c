@@ -282,9 +282,9 @@ void GPIO_WritetoOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t val
  * Note 						- the output written is of uint16_t type because there are 16 pins
  */
 
-void GPIO_WritetoOutputPort(GPIO_RegDef_t *pGIOx, uint16_t value)
+void GPIO_WritetoOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t value)
 {
-
+	pGPIOx->ODR = value;
 }
 
 /*********************************************************************************************************************************
