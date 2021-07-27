@@ -18,7 +18,7 @@ typedef struct
 	uint8_t GPIO_PinSpeed;
 	uint8_t GPIO_PinPuPdControl;
 	uint8_t GPIO_PinOPType;
-	uint8_t GPIO_PinAlfFunMode;
+	uint8_t GPIO_PinAltFunMode;
 
 }GPIO_PinConfig_t;
 /* handle structure for GPIO pin*/
