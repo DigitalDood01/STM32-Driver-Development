@@ -198,15 +198,17 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx)
  * Param2						- Pin number from which the value should be read
  * Param3 						-
  *
- * Return 						- Read value from the given PIN
+ * Return 						- Read value from the given PIN (0 or 1)
  *
  * Note 						-
  */
 
 
-uint8_t GPIO_ReadfromInputPin(GPIO_RegDef_t *pGIOx, uint8_t PinNumber)
+uint8_t GPIO_ReadfromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
 {
-	return 0;
+	uint8_t value;
+	value = ((uint8_t)(pGPIOx->IDR >> PinNumber) & (0x00000001)); 		/* To read data in given pin number and mask it to protect the data*/
+	return value;
 }
 
 /*********************************************************************************************************************************
