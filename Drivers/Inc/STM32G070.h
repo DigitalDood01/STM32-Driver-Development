@@ -187,6 +187,13 @@ typedef struct
 /* Clock disable Macros for SYSCFG peripherals */
 #define SYSCFG_PCLOCK_DI()					(RCC->APBENR2 &= ~(1<<0))
 
+/* Macros to reset the GPIO peripherals */
+#define GPIOA_REG_RESET()					do{ (RCC->IOPRSTR |= (1<<0));	(RCC->IOPRSTR &= ~(1<<0)); } while(0)
+#define GPIOB_REG_RESET()					do{ (RCC->IOPRSTR |= (1<<1));	(RCC->IOPRSTR &= ~(1<<1)); } while(0)
+#define GPIOC_REG_RESET()					do{ (RCC->IOPRSTR |= (1<<2));	(RCC->IOPRSTR &= ~(1<<2)); } while(0)
+#define GPIOD_REG_RESET()					do{ (RCC->IOPRSTR |= (1<<3));	(RCC->IOPRSTR &= ~(1<<3)); } while(0)
+#define GPIOE_REG_RESET()					do{ (RCC->IOPRSTR |= (1<<4));	(RCC->IOPRSTR &= ~(1<<4)); } while(0)
+#define GPIOF_REG_RESET()					do{ (RCC->IOPRSTR |= (1<<5));	(RCC->IOPRSTR &= ~(1<<5)); } while(0)
 
 /* Some generic Macros*/
 
