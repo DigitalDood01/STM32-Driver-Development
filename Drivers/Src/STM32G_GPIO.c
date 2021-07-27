@@ -161,7 +161,31 @@ void GPIO_PeriClkCtrl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi)
 
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx)
 {
-															/* Resetting the GPIO register to the default values*/
+	/* Resetting the GPIO register to the default values*/
+	if(pGPIOx == GPIOA)
+	{
+		GPIOA_REG_RESET();
+	}
+	else if(pGPIOx == GPIOB)
+	{
+		GPIOB_REG_RESET();
+	}
+	else if(pGPIOx == GPIOC)
+	{
+		GPIOC_REG_RESET();
+	}
+	else if(pGPIOx == GPIOD)
+	{
+		GPIOD_REG_RESET();
+	}
+	else if(pGPIOx == GPIOE)
+	{
+		GPIOE_REG_RESET();
+	}
+	else if(pGPIOx == GPIOF)
+	{
+		GPIOF_REG_RESET();
+	}
 }
 
 /*********************************************************************************************************************************
