@@ -51,7 +51,7 @@ void GPIO_Init(GPIO_Handle_t *pGPIO_Handle)
 
 	/* 3. Configure the PullUp/PullDown setting */
 	temp = pGPIO_Handle->GPIO_PinConfig.GPIO_PinPuPdControl <<(2*pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);
-	pGPIO_Handle->pGPIOx->PUPDR &= ~(0x3 << pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);	/* Ensuring that the required bit positions are cleared before setting it */
+	pGPIO_Handle->pGPIOx->PUPDR &= ~(0x3 << (2*pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber));	/* Ensuring that the required bit positions are cleared before setting it */
 	pGPIO_Handle->pGPIOx->PUPDR |= temp;
 	temp = 0;
 
