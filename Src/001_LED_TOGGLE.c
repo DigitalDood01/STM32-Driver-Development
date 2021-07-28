@@ -10,7 +10,7 @@
 
 void delay(void)
 {
-	for(uint32_t i = 0; i<50000000; i++);
+	for(uint32_t i = 0; i<500000; i++);
 }
 int main(void)
 {
@@ -20,7 +20,7 @@ int main(void)
 	GPIO_LED.pGPIOx =GPIOA;
 	GPIO_LED.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO5;
 	GPIO_LED.GPIO_PinConfig.GPIO_PinMode = GPIO_Mode_Output;
-	GPIO_LED.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_LOW;
+	GPIO_LED.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
 	GPIO_LED.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PUSHPULL;
 	GPIO_LED.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
 
@@ -31,7 +31,7 @@ int main(void)
 
 	while(1)
 	{
-		GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_NO5);
+		GPIO_ToggleOutputPin(GPIOA, GPIO_PIN_NO5);
 		delay();
 	}
 	return 0;
