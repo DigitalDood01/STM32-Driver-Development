@@ -31,8 +31,8 @@ void GPIO_Init(GPIO_Handle_t *pGPIO_Handle)
 
 	if(pGPIO_Handle->GPIO_PinConfig.GPIO_PinMode<= GPIO_Mode_Analog)
 	{
-		temp = pGPIO_Handle->GPIO_PinConfig.GPIO_PinMode <<(2*pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber); /* each pin takes 2 bit fields so it is multiplied by 2*/
-		pGPIO_Handle->pGPIOx->MODER &= ~(0x3 << pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);	/* Ensuring that the required bit positions are cleared before setting it */
+		temp = (pGPIO_Handle->GPIO_PinConfig.GPIO_PinMode << (2*pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber)); /* each pin takes 2 bit fields so it is multiplied by 2*/
+		pGPIO_Handle->pGPIOx->MODER &= ~(0x3 <<(2* pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber));	/* Ensuring that the required bit positions are cleared before setting it */
 		pGPIO_Handle->pGPIOx->MODER |= temp;  /* set the actual register based on the mode */
 
 		/* Non interrupt mode */
@@ -45,7 +45,7 @@ void GPIO_Init(GPIO_Handle_t *pGPIO_Handle)
 	temp = 0;
 	/* 2. Configure the speed */
 	temp = pGPIO_Handle->GPIO_PinConfig.GPIO_PinSpeed <<(2*pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);
-	pGPIO_Handle->pGPIOx->OSPEEDR &= ~(0x3 << pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);	/* Ensuring that the required bit positions are cleared before setting it */
+	pGPIO_Handle->pGPIOx->OSPEEDR &= ~(0x3 << (2*pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber));	/* Ensuring that the required bit positions are cleared before setting it */
 	pGPIO_Handle->pGPIOx->OSPEEDR |= temp;
 	temp = 0;
 
