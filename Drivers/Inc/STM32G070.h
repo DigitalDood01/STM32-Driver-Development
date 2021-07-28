@@ -94,6 +94,7 @@ typedef struct
 	volatile uint32_t ICSCR;
 	volatile uint32_t CFGR;
 	volatile uint32_t PLL_CFGR;
+	uint32_t reserved1[2];
 	volatile uint32_t CIER;
 	volatile uint32_t CIFR;
 	volatile uint32_t CICR;
