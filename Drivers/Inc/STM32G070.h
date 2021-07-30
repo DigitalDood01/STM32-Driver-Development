@@ -132,6 +132,46 @@ typedef struct
 	volatile uint32_t EXTI_EMR1;
 }EXTI_RegDef_t;
 
+/* SYSCFG structure definition */
+
+typedef struct
+{
+	volatile uint32_t SYSCFG_CFGR1;
+	uint32_t reserved1[5];
+	volatile uint32_t SYSCFG_CFGR2;
+	uint32_t reserved2[38];
+	volatile uint32_t SYSCFG_ITLINE0;
+	uint32_t reserved3;
+	volatile uint32_t SYSCFG_ITLINE2;
+	volatile uint32_t SYSCFG_ITLINE3;
+	volatile uint32_t SYSCFG_ITLINE4;
+	volatile uint32_t SYSCFG_ITLINE5;
+	volatile uint32_t SYSCFG_ITLINE6;
+	volatile uint32_t SYSCFG_ITLINE7;
+	volatile uint32_t SYSCFG_ITLINE8;
+	volatile uint32_t SYSCFG_ITLINE9;
+	volatile uint32_t SYSCFG_ITLINE10;
+	volatile uint32_t SYSCFG_ITLINE11;
+	volatile uint32_t SYSCFG_ITLINE12;
+	volatile uint32_t SYSCFG_ITLINE13;
+	volatile uint32_t SYSCFG_ITLINE14;
+	uint32_t reserved4;
+	volatile uint32_t SYSCFG_ITLINE16;
+	volatile uint32_t SYSCFG_ITLINE17;
+	volatile uint32_t SYSCFG_ITLINE18;
+	volatile uint32_t SYSCFG_ITLINE19;
+	volatile uint32_t SYSCFG_ITLINE20;
+	volatile uint32_t SYSCFG_ITLINE21;
+	volatile uint32_t SYSCFG_ITLINE22;
+	volatile uint32_t SYSCFG_ITLINE23;
+	volatile uint32_t SYSCFG_ITLINE24;
+	volatile uint32_t SYSCFG_ITLINE25;
+	volatile uint32_t SYSCFG_ITLINE26;
+	volatile uint32_t SYSCFG_ITLINE27;
+	volatile uint32_t SYSCFG_ITLINE28;
+	volatile uint32_t SYSCFG_ITLINE29;
+}SYSCFG_RegDef_t;
+
 /* peripheral definitions(peripheral base addresses typecasted to xxx_RegDef_t) */
 
 #define GPIOA 								((GPIO_RegDef_t *)GPIOA_BASEADDR)
