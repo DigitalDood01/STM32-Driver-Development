@@ -116,6 +116,25 @@ typedef struct
 	volatile uint32_t CSR;
 }RCC_RegDef_t;
 
+/* EXTI peripheral definition structure */
+
+typedef struct
+{
+	volatile uint32_t EXTI_RTSR1;
+	volatile uint32_t EXTI_FTSR1;
+	volatile uint32_t EXTI_SWIER1;
+	volatile uint32_t EXTI_RPR1;
+	volatile uint32_t EXTI_FPR1;
+	 uint32_t reserved1[12];
+	volatile uint32_t EXTI_EXTICR1;
+	volatile uint32_t EXTI_EXTICR2;
+	volatile uint32_t EXTI_EXTICR3;
+	volatile uint32_t EXTI_EXTICR4;
+	 uint32_t reserved2[3];
+	volatile uint32_t EXTI_IMR1;
+	volatile uint32_t EXTI_EMR1;
+}EXTI_RegDef_t;
+
 /* peripheral definitions(peripheral base addresses typecasted to xxx_RegDef_t) */
 
 #define GPIOA 								((GPIO_RegDef_t *)GPIOA_BASEADDR)
@@ -126,6 +145,8 @@ typedef struct
 #define GPIOF 								((GPIO_RegDef_t*)GPIOF_BASEADDR)
 
 #define RCC									((RCC_RegDef_t*)RCC_BASE_ADDR)
+
+#define EXTI 								((EXTI_RegDef_t*)EXTI_BASE_ADDR)
 
 
 /* Clock enable Macros for GPIO peripherals */
