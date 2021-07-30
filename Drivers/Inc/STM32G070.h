@@ -264,6 +264,10 @@ typedef struct
 											(x == GPIOF) ? 05 : 0 )
 
 /* Macros for IRQ number */
+#define IRQ_EXTI0_1							12
+#define IRQ_EXTI2_3							13
+#define IRQ_EXTI4_15						14
+
 /* Some generic Macros*/
 
 #define ENABLE 								1
