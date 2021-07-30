@@ -41,6 +41,31 @@ void GPIO_Init(GPIO_Handle_t *pGPIO_Handle)
 	else
 	{
 		/*to be programmed later(Interrupt mode) */
+		if(pGPIO_Handle->GPIO_PinConfig.GPIO_PinMode == GPIO_Mode_IP_FT)
+		{
+			/* 1. COnfigure the falling trigger selection register(FTSR) */
+			EXTI->EXTI_FTSR1 |= (1 << pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber); /* COnfigure the FTSR reg by the corresponding GPIO pin number */
+
+			/*  Clear the  corresponding RTSR bit for safety */
+			EXTI->EXTI_RTSR1 &= ~(1 << pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);
+
+		}
+		else if(pGPIO_Handle->GPIO_PinConfig.GPIO_PinMode == GPIO_Mode_IP_RT)
+		{
+			/*1. COnfigure the Rising trigger selection register(RTSR) */
+			EXTI->EXTI_RTSR1 |= (1 << pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber); /* COnfigure the RTSR reg by the corresponding GPIO pin number */
+
+			/*  Clear the  corresponding FTSR bit for safety */
+			EXTI->EXTI_FTSR1 &= ~(1 << pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);
+		}
+		else if(pGPIO_Handle->GPIO_PinConfig.GPIO_PinMode == GPIO_Mode_IP_RFT)
+		{
+			/*1. Configure both RTSR and FTSR */
+			EXTI->EXTI_RTSR1 |= (1 << pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);
+
+			EXTI->EXTI_FTSR1 |= (1 << pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);
+		}
+
 	}
 	temp = 0;
 	/* 2. Configure the speed */
