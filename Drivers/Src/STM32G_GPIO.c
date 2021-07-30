@@ -66,6 +66,10 @@ void GPIO_Init(GPIO_Handle_t *pGPIO_Handle)
 			EXTI->EXTI_FTSR1 |= (1 << pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);
 		}
 
+		/*2. Configure the GPIO port selection in SYSCFG_EXTICR		 */
+
+		/*3. Enable the EXTI interrupt delivery using IMR(Interrupt mask register) */
+		EXTI->EXTI_IMR1 |= (1 << pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);
 	}
 	temp = 0;
 	/* 2. Configure the speed */
