@@ -126,10 +126,7 @@ typedef struct
 	volatile uint32_t EXTI_RPR1;
 	volatile uint32_t EXTI_FPR1;
 	 uint32_t reserved1[12];
-	volatile uint32_t EXTI_EXTICR1;
-	volatile uint32_t EXTI_EXTICR2;
-	volatile uint32_t EXTI_EXTICR3;
-	volatile uint32_t EXTI_EXTICR4;
+	volatile uint32_t EXTI_EXTICR[4];
 	 uint32_t reserved2[3];
 	volatile uint32_t EXTI_IMR1;
 	volatile uint32_t EXTI_EMR1;
