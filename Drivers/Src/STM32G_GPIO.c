@@ -66,7 +66,13 @@ void GPIO_Init(GPIO_Handle_t *pGPIO_Handle)
 			EXTI->EXTI_FTSR1 |= (1 << pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);
 		}
 
-		/*2. Configure the GPIO port selection in SYSCFG_EXTICR		 */
+		/*2. Configure the GPIO port selection in EXTICR	register	 */
+		uint8_t temp1 = pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber / 4; 	/* There are 4 EXTICR registers. To find out which register we divide by 4 */
+		uint8_t temp2 = pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber % 4;	/* to find at which position value needs to be written modulo of 4 is taken */
+		uint8_t portcode = GPIO_BASE_ADDR_TO_CODE(pGPIO_Handle->pGPIOx);
+
+		EXTI->EXTI_EXTICR[temp1] =  portcode << (8*temp2);
+
 
 		/*3. Enable the EXTI interrupt delivery using IMR(Interrupt mask register) */
 		EXTI->EXTI_IMR1 |= (1 << pGPIO_Handle->GPIO_PinConfig.GPIO_PinNumber);
