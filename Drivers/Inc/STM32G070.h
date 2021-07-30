@@ -185,6 +185,8 @@ typedef struct
 
 #define EXTI 								((EXTI_RegDef_t*)EXTI_BASE_ADDR)
 
+#define SYSCFG								((SYSCFG_RegDef_t)SYSCFG_BASE_ADDR)
+
 
 /* Clock enable Macros for GPIO peripherals */
 #define GPIOA_PCLOCK_EN()					(RCC->IOPENR |= (1<<0))
@@ -254,6 +256,14 @@ typedef struct
 #define GPIOE_REG_RESET()					do{ (RCC->IOPRSTR |= (1<<4));	(RCC->IOPRSTR &= ~(1<<4)); } while(0)
 #define GPIOF_REG_RESET()					do{ (RCC->IOPRSTR |= (1<<5));	(RCC->IOPRSTR &= ~(1<<5)); } while(0)
 
+#define GPIO_BASE_ADDR_TO_CODE(x)			((x == GPIOA) ? 00 :\
+											(x == GPIOB) ? 01 :\
+											(x == GPIOC) ? 02 :\
+											(x == GPIOD) ? 03 :\
+											(x == GPIOE) ? 04 :\
+											(x == GPIOF) ? 05 : 0 )
+
+/* Macros for IRQ number */
 /* Some generic Macros*/
 
 #define ENABLE 								1
