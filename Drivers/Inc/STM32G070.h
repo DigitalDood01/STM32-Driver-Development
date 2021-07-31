@@ -8,6 +8,23 @@
 #ifndef INC_STM32G070_H_
 #define INC_STM32G070_H_
 #include <stdint.h>
+
+/***********************************************************PROCESSOR SPECIFIC DETAILS*********************************************************************/
+/* ARM CORTEX M0+ NVIC ISERx register addresses */
+
+#define NVIC_ISER0 							((volatile uint32_t*)0xE000E100)
+#define NVIC_ISER1 							((volatile uint32_t*)0xE000E104)
+
+/* ARM CORTEX M0+ NVIC ICERx register addresses */
+
+#define NVIC_ICER0 							((volatile uint32_t*)0xE000E180)
+#define NVIC_ICER1 							((volatile uint32_t*)0xE000E184)
+
+/* ARM CORTEX M0+ NVIC IPRx register addresses */
+
+#define NVIC_IPR_BASE_ADDR 					((volatile uint32_t*)0xE000E400))
+
+
 /*Base addresses of flash and SRAM memory*/
 
 #define FLASH_BASEADDR						0x08000000U
