@@ -349,17 +349,44 @@ void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
  * Brief 						- This function configures the Interrupt Request(IRQ)
  *
  * Param1						- IRQ number
- * Param2						- Priority
- * Param3 						- enable or disable macro
+ * Param2						- enable or disable macro
+ * Param3 						-
  *
  * Return 						- None
  *
  * Note 						-
  */
 
-void GPIOIRQ_Config(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EnorDi)
+void GPIOIRQ_Config(uint8_t IRQNumber, uint8_t EnorDi)
 {
 	/* This function enables the interrupt, setting up the IRQ number*/
+	/* This involves configuring some register in Processor side */
+	if(EnorDi == ENABLE)
+	{
+		if(IRQNumber <= 31) 				/* 0 to 31 */
+		{
+			//program ISER0 register
+			*NVIC_ISER0 |= (1 << IRQNumber);
+		}
+		if(IRQNumber > 31 && IRQNumber <= 64) 	/* 32 to 63 */
+		{
+			/* program ISER1 register */
+			*NVIC_ISER1 |= (1 << IRQNumber % 32); 					/* Take modulus to write properly the IRQ number in ISER1 register */
+		}
+	}
+	else
+	{
+		if(IRQNumber <= 31) 				/* 0 to 31 */
+		{
+			//program ICER0 register
+			*NVIC_ICER0 |= (1 << IRQNumber);
+		}
+		if(IRQNumber > 31 && IRQNumber <= 64) 	/* 32 to 63 */
+		{
+			/* program ICER1 register */
+			*NVIC_ICER1 |= (1 << IRQNumber % 32);					/* Take modulus to write properly the IRQ number in ICER1 register */
+		}
+	}
 }
 
 /*********************************************************************************************************************************
