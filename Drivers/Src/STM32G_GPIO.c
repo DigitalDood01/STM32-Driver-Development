@@ -388,7 +388,29 @@ void GPIOIRQ_Config(uint8_t IRQNumber, uint8_t EnorDi)
 		}
 	}
 }
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- GPIO_IRQPriorityConfig
+ *
+ * Brief 						- This function configures the priority for the given IRQ number
+ *
+ * Param1						- IRQ number
+ * Param2						- Priority
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						-
+ */
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
+{
+	/* 1. Find out the IPR register	 */
+	uint8_t iprx = IRQNumber / 4; 				/* There are 8 IPR registers so divide by 4 */
+	uint8_t ipr_section = IRQNumber % 4;		/* Each IPR register accomodates 4 IRQ numbers, so take modulo of 4 */
 
+	uint8_t shift_amount = ((ipr_section*8) +(8 - NO_OF_BITS_IN_PR_IMPLEMENTED));
+	*(NVIC_IPR_BASE_ADDR + (4*iprx)) |= (IRQPriority << shift_amount);
+}
 /*********************************************************************************************************************************
  *
  * Function Name 				- GPIOIRQ_Handling
@@ -400,11 +422,12 @@ void GPIOIRQ_Config(uint8_t IRQNumber, uint8_t EnorDi)
  * Param3 						-
  *
  * Return 						- None
- *
  * Note 						-
  */
 void GPIOIRQ_Handling(uint8_t PinNumber)
 {
 	/*this function handles the interrupt of the GPIO pin number */
+
+
 }
 
