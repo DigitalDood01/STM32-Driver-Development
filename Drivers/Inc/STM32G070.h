@@ -22,7 +22,9 @@
 
 /* ARM CORTEX M0+ NVIC IPRx register addresses */
 
-#define NVIC_IPR_BASE_ADDR 					((volatile uint32_t*)0xE000E400))
+#define NVIC_IPR_BASE_ADDR 					((volatile uint32_t*)0xE000E400)
+
+#define NO_OF_BITS_IN_PR_IMPLEMENTED		6
 
 
 /*Base addresses of flash and SRAM memory*/
