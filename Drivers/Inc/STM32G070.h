@@ -287,6 +287,26 @@ typedef struct
 #define IRQ_EXTI2_3							6
 #define IRQ_EXTI4_15						7
 
+/* Macros for IRQ priority */
+
+#define NVIC_IRQ_PRIORITY0 					0
+#define NVIC_IRQ_PRIORITY1 					0
+#define NVIC_IRQ_PRIORITY2 					0
+#define NVIC_IRQ_PRIORITY3 					0
+#define NVIC_IRQ_PRIORITY4 					0
+#define NVIC_IRQ_PRIORITY5 					0
+#define NVIC_IRQ_PRIORITY6 					0
+#define NVIC_IRQ_PRIORITY7 					0
+#define NVIC_IRQ_PRIORITY8 					0
+#define NVIC_IRQ_PRIORITY9 					0
+#define NVIC_IRQ_PRIORITY10 				0
+#define NVIC_IRQ_PRIORITY11 				0
+#define NVIC_IRQ_PRIORITY12 				0
+#define NVIC_IRQ_PRIORITY13 				0
+#define NVIC_IRQ_PRIORITY14 				0
+#define NVIC_IRQ_PRIORITY15 				0
+
+
 /* Some generic Macros*/
 
 #define ENABLE 								1
