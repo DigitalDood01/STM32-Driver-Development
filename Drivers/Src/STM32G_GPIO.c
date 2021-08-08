@@ -428,6 +428,14 @@ void GPIOIRQ_Handling(uint8_t PinNumber)
 {
 	/*this function handles the interrupt of the GPIO pin number */
 
+	/* Clear the EXTI Pending Register(PR) corresponding to the pin number */
+	if(EXTI->EXTI_RPR1 & (1 << PinNumber))
+	{
+		/* Clear the corresponding the PR bit */
+		 EXTI->EXTI_RPR1 |= (1 << PinNumber); /* Bit is cleared by setting 1 */
+	}
+
+
 
 }
 
