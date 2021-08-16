@@ -10,21 +10,12 @@
 #include <stdint.h>
 
 /***********************************************************PROCESSOR SPECIFIC DETAILS*********************************************************************/
-/* ARM CORTEX M0+ NVIC ISERx register addresses */
+/* ARM CORTEX M0+ NVIC  base address  */
 
-#define NVIC_ISER0 							((volatile uint32_t*)0xE000E100)
-#define NVIC_ISER1 							((volatile uint32_t*)0xE000E104)
+#define NVIC_BASE_ADDR						0xE000E100U
 
-/* ARM CORTEX M0+ NVIC ICERx register addresses */
 
-#define NVIC_ICER0 							((volatile uint32_t*)0xE000E180)
-#define NVIC_ICER1 							((volatile uint32_t*)0xE000E184)
-
-/* ARM CORTEX M0+ NVIC IPRx register addresses */
-
-#define NVIC_IPR_BASE_ADDR 					((volatile uint32_t*)0xE000E400)
-
-#define NO_OF_BITS_IN_PR_IMPLEMENTED		6
+#define NO_OF_BITS_IN_PR_IMPLEMENTED		2
 
 
 /*Base addresses of flash and SRAM memory*/
