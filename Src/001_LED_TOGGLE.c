@@ -23,11 +23,12 @@ int main(void)
 	GPIO_LED.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
 	GPIO_LED.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PUSHPULL;
 	GPIO_LED.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
-
+	GPIO_LED.GPIO_PinConfig.GPIO_PinInterruptMode = GPIO_No_Interrupt;
 	/* First call the clock control API*/
 	GPIO_PeriClkCtrl(GPIOA, ENABLE);
 
 	GPIO_Init(&GPIO_LED);
+
 
 	while(1)
 	{
@@ -36,3 +37,4 @@ int main(void)
 	}
 	return 0;
 }
+

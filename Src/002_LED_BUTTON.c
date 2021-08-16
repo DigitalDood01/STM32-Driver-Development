@@ -28,6 +28,7 @@ int main(void)
 	GPIO_LED.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
 	GPIO_LED.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PUSHPULL;
 	GPIO_LED.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+	GPIO_LED.GPIO_PinConfig.GPIO_PinInterruptMode = GPIO_No_Interrupt;
 
 	/* Initializing the GPIO port for the BUTTON */
 	GPIO_BUTTON.pGPIOx = GPIOC;
@@ -35,7 +36,7 @@ int main(void)
 	GPIO_BUTTON.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
 	GPIO_BUTTON.GPIO_PinConfig.GPIO_PinMode = GPIO_Mode_Input;
 	GPIO_BUTTON.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
-
+	GPIO_BUTTON.GPIO_PinConfig.GPIO_PinInterruptMode = GPIO_No_Interrupt;
 
 	/* First call the clock control API for LED*/
 	GPIO_PeriClkCtrl(GPIOA, ENABLE);
