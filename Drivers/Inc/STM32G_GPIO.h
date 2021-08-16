@@ -19,6 +19,7 @@ typedef struct
 	uint8_t GPIO_PinPuPdControl;
 	uint8_t GPIO_PinOPType;
 	uint8_t GPIO_PinAltFunMode;
+	uint8_t GPIO_PinInterruptMode;
 
 }GPIO_PinConfig_t;
 /* handle structure for GPIO pin*/
@@ -56,9 +57,12 @@ typedef struct
 #define GPIO_Mode_Output 			1
 #define GPIO_Mode_Alt_Fun			2
 #define GPIO_Mode_Analog 			3
-#define GPIO_Mode_IP_FT 			4 				/* IP_FT = Input falling edge  */
-#define GPIO_Mode_IP_RT 			5 				/* IP_RT = Input raising edge */
-#define GPIO_Mode_IP_RFT 			6 				/* IP_RFT = Input falling/raising edge */
+
+/* Macros for different Interrupt modes in GPIO Peripherals */
+#define GPIO_No_Interrupt			0
+#define GPIO_Interrupt_FT 			1 				/* IP_FT = Input falling edge  */
+#define GPIO_Interrupt_RT 			2 				/* IP_RT = Input raising edge */
+#define GPIO_Interrupt_RFT 			3 				/* IP_RFT = Input falling/raising edge */
 
 /* Macros for possible GPIO output types */
 
