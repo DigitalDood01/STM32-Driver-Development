@@ -195,6 +195,7 @@ typedef struct
 	uint32_t reserved4[95];
 	volatile uint32_t IPR[8];
 }NVIC_RegDef_t;
+
 /* peripheral definitions(peripheral base addresses typecasted to xxx_RegDef_t) */
 
 #define GPIOA 								((GPIO_RegDef_t *)GPIOA_BASEADDR)
@@ -209,6 +210,9 @@ typedef struct
 #define EXTI 								((EXTI_RegDef_t*)EXTI_BASE_ADDR)
 
 #define SYSCFG								((SYSCFG_RegDef_t)SYSCFG_BASE_ADDR)
+
+/* Macro definition for base address for NVIC */
+#define NVIC 								((NVIC_RegDef_t*)NVIC_BASE_ADDR)
 
 
 /* Clock enable Macros for GPIO peripherals */
@@ -294,21 +298,21 @@ typedef struct
 /* Macros for IRQ priority */
 
 #define NVIC_IRQ_PRIORITY0 					0
-#define NVIC_IRQ_PRIORITY1 					0
-#define NVIC_IRQ_PRIORITY2 					0
-#define NVIC_IRQ_PRIORITY3 					0
-#define NVIC_IRQ_PRIORITY4 					0
-#define NVIC_IRQ_PRIORITY5 					0
-#define NVIC_IRQ_PRIORITY6 					0
-#define NVIC_IRQ_PRIORITY7 					0
-#define NVIC_IRQ_PRIORITY8 					0
-#define NVIC_IRQ_PRIORITY9 					0
-#define NVIC_IRQ_PRIORITY10 				0
-#define NVIC_IRQ_PRIORITY11 				0
-#define NVIC_IRQ_PRIORITY12 				0
-#define NVIC_IRQ_PRIORITY13 				0
-#define NVIC_IRQ_PRIORITY14 				0
-#define NVIC_IRQ_PRIORITY15 				0
+#define NVIC_IRQ_PRIORITY1 					1
+#define NVIC_IRQ_PRIORITY2 					2
+#define NVIC_IRQ_PRIORITY3 					3
+#define NVIC_IRQ_PRIORITY4 					4
+#define NVIC_IRQ_PRIORITY5 					5
+#define NVIC_IRQ_PRIORITY6 					6
+#define NVIC_IRQ_PRIORITY7 					7
+#define NVIC_IRQ_PRIORITY8 					8
+#define NVIC_IRQ_PRIORITY9 					9
+#define NVIC_IRQ_PRIORITY10 				10
+#define NVIC_IRQ_PRIORITY11 				11
+#define NVIC_IRQ_PRIORITY12 				12
+#define NVIC_IRQ_PRIORITY13 				13
+#define NVIC_IRQ_PRIORITY14 				14
+#define NVIC_IRQ_PRIORITY15 				15
 
 
 /* Some generic Macros*/
