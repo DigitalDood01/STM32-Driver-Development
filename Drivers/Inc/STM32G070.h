@@ -182,6 +182,19 @@ typedef struct
 	volatile uint32_t SYSCFG_ITLINE29;
 }SYSCFG_RegDef_t;
 
+/* Structure for elements in NVIC region */
+typedef struct
+{
+	volatile uint32_t ISER;
+	uint32_t reserved1[31];
+	volatile uint32_t ICER;
+	uint32_t reserved2[31];
+	volatile uint32_t ISPR;
+	uint32_t reserved3[31];
+	volatile uint32_t ICPR;
+	uint32_t reserved4[95];
+	volatile uint32_t IPR[8];
+}NVIC_RegDef_t;
 /* peripheral definitions(peripheral base addresses typecasted to xxx_RegDef_t) */
 
 #define GPIOA 								((GPIO_RegDef_t *)GPIOA_BASEADDR)
