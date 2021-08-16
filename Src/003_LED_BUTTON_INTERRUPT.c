@@ -8,6 +8,8 @@
 
 #include "STM32G_GPIO.h"
 #include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define HIGH 		    ENABLE
 #define LOW			    DISABLE
@@ -26,6 +28,7 @@ int main(void)
 
 	memset(&GPIO_LED,0, sizeof(GPIO_LED));
 	memset(&GPIO_BUTTON,0, sizeof(GPIO_BUTTON));
+
 	/* Initializing the GPIO port for the LED */
 	GPIO_LED.pGPIOx =GPIOA;
 	GPIO_LED.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO5;
@@ -33,36 +36,40 @@ int main(void)
 	GPIO_LED.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
 	GPIO_LED.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PUSHPULL;
 	GPIO_LED.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+	GPIO_LED.GPIO_PinConfig.GPIO_PinInterruptMode = GPIO_No_Interrupt;
+
+	/* First call the clock control API for LED*/
+	GPIO_PeriClkCtrl(GPIOA, ENABLE);
+
+	GPIO_Init(&GPIO_LED);
 
 	/* Initializing the GPIO port for the BUTTON */
 	GPIO_BUTTON.pGPIOx = GPIOC;
 	GPIO_BUTTON.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO13;
 	GPIO_BUTTON.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
-	GPIO_BUTTON.GPIO_PinConfig.GPIO_PinMode = GPIO_Mode_IP_RT;
-	GPIO_BUTTON.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PULLUP;
-
-
-	/* First call the clock control API for LED*/
-	GPIO_PeriClkCtrl(GPIOA, ENABLE);
+	GPIO_BUTTON.GPIO_PinConfig.GPIO_PinMode = GPIO_Mode_Input;
+	GPIO_BUTTON.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+	GPIO_BUTTON.GPIO_PinConfig.GPIO_PinInterruptMode = GPIO_Interrupt_RFT;
 
 	/* Call the clock control API for BUTTON*/
 	GPIO_PeriClkCtrl(GPIOC, ENABLE);
 
-	GPIO_Init(&GPIO_LED);
-
 	GPIO_Init(&GPIO_BUTTON);
 
 	/* IRQ Configurations */
-	GPIO_IRQPriorityConfig(IRQ_EXTI0_1, NVIC_IRQ_PRIORITY15);
+	GPIO_IRQ_Config(IRQ_EXTI4_15, ENABLE);
 
-	GPIOIRQ_Config(IRQ_EXTI0_1, ENABLE);
+	GPIO_IRQPriorityConfig(IRQ_EXTI4_15, NVIC_IRQ_PRIORITY14);
+	while(1);
 
-	return 0;
-	}
+}
 
 /* Configure the ISR(Interrupt service routine */
-void EXTI0_1_IRQHandler(void)
+void EXTI4_15_IRQHandler(void)
 {
-	GPIOIRQ_Handling(GPIO_PIN_NO13);
+	delay();
+	GPIO_IRQ_Handling(GPIO_Interrupt_RFT, GPIO_PIN_NO13); 		/* Clear the pending event from EXTI line */
 	GPIO_ToggleOutputPin(GPIOA, GPIO_PIN_NO5);
 }
+
+
