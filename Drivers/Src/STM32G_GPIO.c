@@ -408,6 +408,7 @@ void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
 
 	uint8_t shift_amount = ((ipr_section*8) +(8 - NO_OF_BITS_IN_PR_IMPLEMENTED));
 	NVIC->IPR[iprx] |= (IRQPriority << shift_amount);
+
 }
 /*********************************************************************************************************************************
  *
@@ -415,22 +416,39 @@ void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
  *
  * Brief 						- This function defines how to handle the Interrupt
  *
- * Param1						- Pin number
- * Param2						-
+ * Param1						- Interrupt Mode whether it is rising edge or falling edge or both
+ * Param2						- Pin number
  * Param3 						-
  *
  * Return 						- None
  * Note 						-
  */
-void GPIOIRQ_Handling(uint8_t PinNumber)
+void GPIO_IRQ_Handling(uint8_t Interrupt_Mode, uint8_t PinNumber)
 {
 	/*this function handles the interrupt of the GPIO pin number */
 
 	/* Clear the EXTI Pending Register(PR) corresponding to the pin number */
-	if(EXTI->EXTI_RPR1 & (1 << PinNumber))
+	if(Interrupt_Mode == GPIO_Interrupt_RT)
 	{
-		/* Clear the corresponding the PR bit */
-		 EXTI->EXTI_RPR1 |= (1 << PinNumber); /* Bit is cleared by setting 1 */
+		if(EXTI->EXTI_RPR1 && (1 << PinNumber))
+		{
+			/* Clear the corresponding the PR bit */
+			EXTI->EXTI_RPR1 |= (1 << PinNumber); /* Bit is cleared by setting 1 */
+		}
+	}
+	else if (Interrupt_Mode == GPIO_Interrupt_FT)
+	{
+		if(EXTI->EXTI_FPR1 && (1 << PinNumber))
+		{
+			/* Clear the corresponding the PR bit */
+			EXTI->EXTI_FPR1 |= (1 << PinNumber); /* Bit is cleared by setting 1 */
+		}
+	}
+	else
+	{
+		/* Now the interrupt mode would have been configured to both Rising edge and Falling edge so clear the bits set in both FPR and RPR register */
+		EXTI->EXTI_RPR1 |= (1 << PinNumber);
+		EXTI->EXTI_FPR1 |= (1 << PinNumber);
 	}
 
 
