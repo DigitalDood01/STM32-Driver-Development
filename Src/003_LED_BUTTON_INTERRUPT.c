@@ -21,6 +21,11 @@ int main(void)
 {
 	GPIO_Handle_t GPIO_LED, GPIO_BUTTON; 			/* Create a variable for GPIO LED and GPIO BUTTON*/
 
+	/* Before configuring the elements of structure initialize it to zero as it is a local variable
+	 * This is done using memset fuction*/
+
+	memset(&GPIO_LED,0, sizeof(GPIO_LED));
+	memset(&GPIO_BUTTON,0, sizeof(GPIO_BUTTON));
 	/* Initializing the GPIO port for the LED */
 	GPIO_LED.pGPIOx =GPIOA;
 	GPIO_LED.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO5;
