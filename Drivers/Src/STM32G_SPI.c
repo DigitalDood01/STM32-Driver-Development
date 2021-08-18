@@ -79,19 +79,48 @@ void SPI_Init(SPI_Handle_t *pSPI_Handle)
  *
  * Function Name 				- SPI_PeriClkCtrl
  *
- * Brief 						-
+ * Brief 						- It enables or disables the clock for SPI in RCC registers
  *
- * Param1						-
- * Param2						-
+ * Param1						- Address of SPIx peripheral
+ * Param2						- enable or disable macro
  * Param3 						-
  *
- * Return 						-
+ * Return 						- None
  *
  * Note 						-
  ************************************************************************************************************************************/
 void SPI_PeriClkCtrl(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
 {
-
+	if(EnorDi == ENABLE)
+	{
+		if(pSPIx == SPI1)
+		{
+			SPI1_PCLOCK_EN();
+		}
+		else if(pSPIx == SPI2)
+		{
+			SPI2_PCLOCK_EN();
+		}
+		else if(pSPIx == SPI3)
+		{
+			SPI3_PCLOCK_EN();
+		}
+	}
+	else
+	{
+		if(pSPIx == SPI1)
+		{
+			SPI1_PCLOCK_DI();
+		}
+		else if(pSPIx == SPI2)
+		{
+			SPI2_PCLOCK_DI();
+		}
+		else if(pSPIx == SPI3)
+		{
+			SPI3_PCLOCK_DI();
+		}
+	}
 }
 
 /*********************************************************************************************************************************
