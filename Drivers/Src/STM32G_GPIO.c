@@ -430,7 +430,7 @@ void GPIO_IRQ_Handling(uint8_t Interrupt_Mode, uint8_t PinNumber)
 	/* Clear the EXTI Pending Register(PR) corresponding to the pin number */
 	if(Interrupt_Mode == GPIO_Interrupt_RT)
 	{
-		if(EXTI->EXTI_RPR1 && (1 << PinNumber))
+		if(EXTI->EXTI_RPR1 & (1 << PinNumber))
 		{
 			/* Clear the corresponding the PR bit */
 			EXTI->EXTI_RPR1 |= (1 << PinNumber); /* Bit is cleared by setting 1 */
@@ -438,7 +438,7 @@ void GPIO_IRQ_Handling(uint8_t Interrupt_Mode, uint8_t PinNumber)
 	}
 	else if (Interrupt_Mode == GPIO_Interrupt_FT)
 	{
-		if(EXTI->EXTI_FPR1 && (1 << PinNumber))
+		if(EXTI->EXTI_FPR1 & (1 << PinNumber))
 		{
 			/* Clear the corresponding the PR bit */
 			EXTI->EXTI_FPR1 |= (1 << PinNumber); /* Bit is cleared by setting 1 */
