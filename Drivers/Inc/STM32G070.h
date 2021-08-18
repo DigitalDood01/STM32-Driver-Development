@@ -96,6 +96,19 @@ typedef struct
 	volatile uint32_t BRR;
 }GPIO_RegDef_t;
 
+/* Register definition structure for SPI */
+typedef struct
+{
+	volatile uint32_t SPIx_CR1;
+	volatile uint32_t SPIx_CR2;
+	volatile uint32_t SPIx_SR;
+	volatile uint32_t SPIx_DR;
+	volatile uint32_t SPIx_CRCPR;
+	volatile uint32_t SPIx_RXCRCR;
+	volatile uint32_t SPIx_TXCRCR;
+	volatile uint32_t SPIx_I2SCFGR;
+	volatile uint32_t SPIx_I2SPR;
+}SPI_RegDef_t;
 
 /* Register definition structure for RCC(Reset Clock Control)*/
 typedef struct
@@ -214,6 +227,10 @@ typedef struct
 /* Macro definition for base address for NVIC */
 #define NVIC 								((NVIC_RegDef_t*)NVIC_BASE_ADDR)
 
+/* Macro definition for base addresses for SPIx peripherals */
+#define SPI1								((SPI_RegDef_t*)SPI1_BASE_ADDR)
+#define SPI2								((SPI_RegDef_t*)SPI2_BASE_ADDR)
+#define SPI3								((SPI_RegDef_t*)SPI3_BASE_ADDR)
 
 /* Clock enable Macros for GPIO peripherals */
 #define GPIOA_PCLOCK_EN()					(RCC->IOPENR |= (1<<0))
