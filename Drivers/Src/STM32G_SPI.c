@@ -127,17 +127,33 @@ void SPI_PeriClkCtrl(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
  *
  * Function Name 				- SPI_DeInit
  *
- * Brief 						-
+ * Brief 						-  This API resets the SPI registers to its default values
  *
- * Param1						-
+ * Param1						- base address of SPIx port
  * Param2						-
  * Param3 						-
  *
- * Return 						-
+ * Return 						- None
  *
  * Note 						-
  ************************************************************************************************************************************/
-void SPI_DeInit(SPI_RegDef_t *pSPIx);
+void SPI_DeInit(SPI_RegDef_t *pSPIx)
+{
+	/* Resetting the SPI registers to the default values*/
+	if(pSPIx == SPI1)
+	{
+		SPI1_REG_RESET();
+	}
+	else if(pSPIx == SPI2)
+	{
+		SPI1_REG_RESET();
+	}
+	else if(pSPIx == SPI3)
+	{
+		SPI1_REG_RESET();
+	}
+}
+
 
 /*********************************************************************************************************************************
  *
