@@ -344,6 +344,8 @@ typedef struct
 #define DISABLE 							0
 #define SET 								ENABLE
 #define RESET 								DISABLE
+#define FLAG_RESET							RESET
+#define FLAG_SET							SET
 
 
 /**************************************************** Bit Position macros for SPI registers*********************************************************************/
