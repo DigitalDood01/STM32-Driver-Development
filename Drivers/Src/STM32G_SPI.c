@@ -77,6 +77,29 @@ void SPI_Init(SPI_Handle_t *pSPI_Handle)
 
 /*********************************************************************************************************************************
  *
+ * Function Name 				- SPI_Get_Flag_Status
+ *
+ * Brief 						- It enables or disables the clock for SPI in RCC registers
+ *
+ * Param1						- Address of SPIx peripheral
+ * Param2						- enable or disable macro
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+uint8_t SPI_Get_Flag_Status(SPI_RegDef_t *pSPIx, uint32_t Flagname)
+{
+	if(pSPIx->SPIx_SR & Flagname)
+	{
+		return FLAG_SET;
+	}
+	return FLAG_RESET;
+}
+/*********************************************************************************************************************************
+ *
  * Function Name 				- SPI_PeriClkCtrl
  *
  * Brief 						- It enables or disables the clock for SPI in RCC registers
