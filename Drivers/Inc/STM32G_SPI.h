@@ -16,7 +16,7 @@ typedef struct
 {
 	uint8_t SPI_DeviceMode;			/* Master or slave mode */
 	uint8_t SPI_BusConfig;			/* simplex/full-duplex/half-duplex */
-	uint8_t SPI_DFF;				/* data frame format 8-bit or 16-bit */
+	uint8_t SPI_CRCL;				/* data frame format 8-bit or 16-bit */
 	uint8_t SPI_CPHA;				/* clock phase */
 	uint8_t SPI_CPOL;				/* clock polarity */
 	uint8_t SPI_SSM;				/* software or hardware slave management */
@@ -57,8 +57,8 @@ typedef struct
 
 /* Macros for configuring the data frame format */
 
-#define SPI_DFF_8BITS 					0					/* DEFAULT MODE */
-#define SPI_DFF_16BITS 					1
+#define SPI_CRCL_8BITS 					0					/* DEFAULT MODE */
+#define SPI_CRCL_16BITS 				1
 
 /* Macros for configuring the clock polarity */
 
