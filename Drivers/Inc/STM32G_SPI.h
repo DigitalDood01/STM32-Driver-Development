@@ -75,6 +75,11 @@ typedef struct
 #define SPI_SSM_ENABLE					0
 #define SPI_SSM_DISABLE					1
 
+/* SPI related status flags definitions */
+
+#define SPI_TXE_FLAG					(1 << SPI_SR_TXE)
+#define SPI_RXNE_FLAG					(1 << SPI_SR_RXNE)
+#define SPI_BUSY_FLAG					(1 << SPI_SR_BSY)
 /**********************************************************APIs Supported by this Driver***************************************************************************/
 
 /* Peripheral Clock setup */
