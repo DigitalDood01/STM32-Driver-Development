@@ -300,6 +300,12 @@ typedef struct
 #define GPIOE_REG_RESET()					do{ (RCC->IOPRSTR |= (1<<4));	(RCC->IOPRSTR &= ~(1<<4)); } while(0)
 #define GPIOF_REG_RESET()					do{ (RCC->IOPRSTR |= (1<<5));	(RCC->IOPRSTR &= ~(1<<5)); } while(0)
 
+/* Macros to reset the SPI peripherals */
+
+#define SPI1_REG_RESET()					do{ (RCC->APBENR2 |= (1<<12));  (RCC->APBENR2 &= ~(1<<12)); } while(0)
+#define SPI2_REG_RESET()					do{ (RCC->APBENR1 |= (1<<14));  (RCC->APBENR1 &= ~(1<<14)); } while(0)
+#define SPI3_REG_RESET()					do{ (RCC->APBENR1 |= (1<<15));  (RCC->APBENR1 &= ~(1<<15)); } while(0)
+
 #define GPIO_BASE_ADDR_TO_CODE(x)			((x == GPIOA) ? 00 :\
 											(x == GPIOB) ? 01 :\
 											(x == GPIOC) ? 02 :\
@@ -338,6 +344,7 @@ typedef struct
 #define DISABLE 							0
 #define SET 								ENABLE
 #define RESET 								DISABLE
+
 
 /**************************************************** Bit Position macros for SPI registers*********************************************************************/
 
