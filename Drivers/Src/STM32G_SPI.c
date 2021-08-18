@@ -190,10 +190,45 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx)
  *
  * Return 						-
  *
- * Note 						-
+ * Note 						- This is a blocking call
  ************************************************************************************************************************************/
 
-void SPI_sendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t len);
+void SPI_sendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t len)
+{
+	while(len >0)
+	{
+		/* 1 Wait until the TXE flag is set  */
+
+		while(SPI_Get_Flag_Status(pSPIx, SPI_TXE_FLAG) != FLAG_SET );
+
+		/* 2. Check the CRCL bit in SPI_CR1 register(8-bit or 16-bit data) */
+
+		if(pSPIx->SPIx_CR1 & (1 << SPI_CR1_CRCL))
+		{
+			/* 16-bit data format */
+
+			/* 3. Load the data into the Data Register */
+
+			pSPIx->SPIx_DR = (*(uint16_t *)pTxBuffer);
+			len--;
+			len--;
+			/* Increment the Txbuffer so that it points to the next data item */
+
+			(uint16_t *)pTxBuffer++;
+		}
+		else
+		{
+			/* 8-bit data format */
+
+			/* 3. Load the data into the Data Register */
+
+			pSPIx->SPIx_DR = *pTxBuffer;
+			len--;
+			pTxBuffer++;
+		}
+
+	}
+}
 
 
 /*********************************************************************************************************************************
