@@ -85,7 +85,7 @@ void SPI_Init(SPI_Handle_t *pSPI_Handle)
  * Param2						- enable or disable macro
  * Param3 						-
  *
- * Return 						- None
+ * Return 						- flag is set or reset
  *
  * Note 						-
  ************************************************************************************************************************************/
@@ -182,11 +182,11 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx)
  *
  * Function Name 				- SPI_sendData
  *
- * Brief 						-
+ * Brief 						- This API is to transmit data via SPI communication
  *
- * Param1						-
- * Param2						-
- * Param3 						-
+ * Param1						- Base address of SPI port
+ * Param2						- address of Tx buffer
+ * Param3 						- length of the data to be transmitted
  *
  * Return 						-
  *
@@ -199,7 +199,7 @@ void SPI_sendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t len)
 	{
 		/* 1 Wait until the TXE flag is set  */
 
-		while(SPI_Get_Flag_Status(pSPIx, SPI_TXE_FLAG) != FLAG_SET );
+		while( SPI_Get_Flag_Status(pSPIx, SPI_TXE_FLAG) != FLAG_SET );
 
 		/* 2. Check the CRCL bit in SPI_CR1 register(8-bit or 16-bit data) */
 
