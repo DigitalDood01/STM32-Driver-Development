@@ -271,7 +271,7 @@ void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t len);
  *
  * Function Name 				- SPI_Peripheral_Control
  *
- * Brief 						- This API enables the SPI in SPI_CR12 register
+ * Brief 						- This API enables the SPI in SPI_CR1 register
  *
  * Param1						- Base address of SPI port
  * Param2						- Enable or Disable macro
@@ -290,6 +290,31 @@ void SPI_Peripheral_Control(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
 	else
 	{
 		pSPIx->SPIx_CR1 &= ~(1 << SPI_CR1_SPE);
+	}
+}
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- SPI_SSI_Config
+ *
+ * Brief 						- This API enables the SSI bit in SPI_CR1 register
+ *
+ * Param1						- Base address of SPI port
+ * Param2						- Enable or Disable macro
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						- SSI should be set in non multi master mode when SSM bit in SPI_CR1 register is set
+ ************************************************************************************************************************************/
+void SPI_SSI_Config(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
+{
+	if(EnorDi == ENABLE)
+	{
+		pSPIx->SPIx_CR1 |= (1 << SPI_CR1_SSI);
+	}
+	else
+	{
+		pSPIx->SPIx_CR1 &= ~(1 << SPI_CR1_SSI);
 	}
 }
 void SPI_IRQ_Config(uint8_t IRQNumber,  uint8_t EnorDi);/* This function enables the interrupt, setting up the IRQ number*/
