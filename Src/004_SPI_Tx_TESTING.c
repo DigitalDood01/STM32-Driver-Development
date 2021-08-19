@@ -32,22 +32,23 @@ void SPI1_GPIOInits(void)
 	SPIPins.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PUSHPULL;
 	SPIPins.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
 	SPIPins.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_VERYHIGH;
+	SPIPins.GPIO_PinConfig.GPIO_PinInterruptMode = GPIO_No_Interrupt;
 
 	/* SCLK */
 	SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO1;
-	GPIO_Init(&SPIPins);
-
-	/* MISO */
-	SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO6;
 	GPIO_Init(&SPIPins);
 
 	/* MOSI */
 	SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO2;
 	GPIO_Init(&SPIPins);
 
+	/* MISO */
+	//SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO6;
+	//GPIO_Init(&SPIPins);
+
 	/* NSS */
-	SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO4;
-	GPIO_Init(&SPIPins);
+	//SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO4;
+	//GPIO_Init(&SPIPins);
 
 }
 
@@ -70,7 +71,7 @@ void SPI1_Inits(void)
 }
 int main(void)
 {
-	char user_data[] = "Hello Bro";
+	char user_data[] = "Hiii";
 	/* This function is to initialize the GPIO pins to behave as SPI2 pins */
 
 	SPI1_GPIOInits();
@@ -79,15 +80,24 @@ int main(void)
 
 	SPI1_Inits();
 
+	/* Enable the SSI bit to make NSS bit internally high to avoid MODF error */
+
+	SPI_SSI_Config(SPI1, ENABLE);
+
 	/* Enable the SPI1 peripheral */
 
 	SPI_Peripheral_Control(SPI1, ENABLE);
 
 	/* Lets send the data */
 
-	SPI_sendData(SPI1, (uint8_t *)user_data, strlen(user_data));
+	while(1)
+	{
+		SPI_sendData(SPI1, (uint8_t *)user_data, strlen(user_data));
+	}
 
-	while(1);
+	/* Disable the SPI1 peripheral */
+
+	SPI_Peripheral_Control(SPI1, DISABLE);
 
 	return 0;
 }
