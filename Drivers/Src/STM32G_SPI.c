@@ -27,6 +27,10 @@
 
 void SPI_Init(SPI_Handle_t *pSPI_Handle)
 {
+	/* Enable the peripheral clock control */
+
+	SPI_PeriClkCtrl(pSPI_Handle->pSPIx, ENABLE);
+
 	/* Configure the SPI1_CR1 Register */
 
 	/* 1. Configure the device mode */
@@ -263,6 +267,31 @@ void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t len);
  * Note 						-
  ************************************************************************************************************************************/
 
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- SPI_Peripheral_Control
+ *
+ * Brief 						- This API enables the SPI in SPI_CR12 register
+ *
+ * Param1						- Base address of SPI port
+ * Param2						- Enable or Disable macro
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						- This API should be called after initializing all the configurations for SPI
+ ************************************************************************************************************************************/
+void SPI_Peripheral_Control(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
+{
+	if(EnorDi == ENABLE)
+	{
+		pSPIx->SPIx_CR1 |= (1 << SPI_CR1_SPE);
+	}
+	else
+	{
+		pSPIx->SPIx_CR1 &= ~(1 << SPI_CR1_SPE);
+	}
+}
 void SPI_IRQ_Config(uint8_t IRQNumber,  uint8_t EnorDi);/* This function enables the interrupt, setting up the IRQ number*/
 
 

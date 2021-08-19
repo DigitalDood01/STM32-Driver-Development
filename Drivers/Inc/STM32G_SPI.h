@@ -91,6 +91,8 @@ void SPI_PeriClkCtrl(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
 void SPI_Init(SPI_Handle_t *pSPI_Handle);
 void SPI_DeInit(SPI_RegDef_t *pSPIx);							/* Resetting the SPI registers to the default values*/
 
+/* Get the flag the status */
+uint8_t SPI_Get_Flag_Status(SPI_RegDef_t *pSPIx, uint32_t Flagname);
 
 /*
  * Data Send and Receive
@@ -107,5 +109,9 @@ void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t len);
 void SPI_IRQ_Config(uint8_t IRQNumber,  uint8_t EnorDi);/* This function enables the interrupt, setting up the IRQ number*/
 void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
 void SPI_IRQ_Handling(SPI_Handle_t *pSPI_Handle); 							/*this function handles the interrupt */
+
+/* Other peripheral control APIs */
+
+void SPI_Peripheral_Control(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
 
 #endif /* INC_STM32G_SPI_H_ */
