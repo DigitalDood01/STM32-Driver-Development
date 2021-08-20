@@ -47,8 +47,8 @@ void SPI1_GPIOInits(void)
 	//GPIO_Init(&SPIPins);
 
 	/* NSS */
-	//SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO4;
-	//GPIO_Init(&SPIPins);
+	SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO4;
+	GPIO_Init(&SPIPins);
 
 }
 
@@ -89,11 +89,13 @@ int main(void)
 	SPI_Peripheral_Control(SPI1, ENABLE);
 
 	/* Lets send the data */
-
-	while(1)
-	{
+while(1)
+{
 		SPI_sendData(SPI1, (uint8_t *)user_data, strlen(user_data));
-	}
+}
+	/* Lets confirm that SPI is not busy */
+
+	while(SPI_Get_Flag_Status(SPI1, SPI_BUSY_FLAG));
 
 	/* Disable the SPI1 peripheral */
 
