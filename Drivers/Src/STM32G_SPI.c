@@ -217,8 +217,8 @@ void SPI_sendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t len)
 			len--;
 			len--;
 			/* Increment the Txbuffer so that it points to the next data item */
+			pTxBuffer += 2;
 
-			(uint16_t *)pTxBuffer++;
 		}
 		else
 		{
@@ -251,21 +251,6 @@ void SPI_sendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t len)
  ************************************************************************************************************************************/
 
 void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t len);
-
-/*********************************************************************************************************************************
- *
- * Function Name 				- SPI_IRQ_Config
- *
- * Brief 						-
- *
- * Param1						-
- * Param2						-
- * Param3 						-
- *
- * Return 						-
- *
- * Note 						-
- ************************************************************************************************************************************/
 
 /*********************************************************************************************************************************
  *
@@ -317,9 +302,48 @@ void SPI_SSI_Config(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
 		pSPIx->SPIx_CR1 &= ~(1 << SPI_CR1_SSI);
 	}
 }
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- SPI_SSIOE_Config
+ *
+ * Brief 						- This API enables the SSOE bit in SPI_CR2 register
+ *
+ * Param1						- Base address of SPI port
+ * Param2						- Enable or Disable macro
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						- SSOE bit should be set when hardware slave select management is selected.
+ ************************************************************************************************************************************/
+void SPI_SSOE_Config(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
+{
+	if(EnorDi == ENABLE)
+	{
+		pSPIx->SPIx_CR2 |= (1 << SPI_CR2_SSOE);
+	}
+	else
+	{
+		pSPIx->SPIx_CR2 &= ~(1 << SPI_CR2_SSOE);
+	}
+}
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- SPI_IRQ_Config
+ *
+ * Brief 						-
+ *
+ * Param1						-
+ * Param2						-
+ * Param3 						-
+ *
+ * Return 						-
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
 void SPI_IRQ_Config(uint8_t IRQNumber,  uint8_t EnorDi);/* This function enables the interrupt, setting up the IRQ number*/
-
-
 /*********************************************************************************************************************************
  *
  * Function Name 				- SPI_IRQPriorityConfig

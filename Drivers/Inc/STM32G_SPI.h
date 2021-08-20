@@ -113,6 +113,7 @@ void SPI_IRQ_Handling(SPI_Handle_t *pSPI_Handle); 							/*this function handles
 /* Other peripheral control APIs */
 
 void SPI_Peripheral_Control(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
+void SPI_SSOE_Config(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
 void SPI_SSI_Config(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
 
 #endif /* INC_STM32G_SPI_H_ */
