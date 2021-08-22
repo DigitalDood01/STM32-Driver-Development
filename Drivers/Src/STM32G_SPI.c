@@ -9,6 +9,11 @@
 #include "STM32G_SPI.h"
 #include <stdint.h>
 
+/* Declaring the helper functions as static so that they are private to other files */
+
+static void SPI_TXE_Interrupt_Handle(SPI_Handle_t *pSPI_Handle);
+static void SPI_RXNE_Interrupt_Handle(SPI_Handle_t *pSPI_Handle);
+static void SPI_OVR_ERRIE_Interrupt_Handle(SPI_Handle_t *pSPI_Handle);
 
 /*********************************************************************************************************************************
  *
@@ -570,4 +575,107 @@ void SPI_IRQ_Handling(SPI_Handle_t *pSPI_Handle) 							/*this function handles 
 		SPI_OVR_ERRIE_Interrupt_Handle(pSPI_Handle);
 	}
 }
+
+/*****************************************Some helper functions implementation************************************************************************************/
+
+static void SPI_TXE_Interrupt_Handle(SPI_Handle_t *pSPI_Handle)
+{
+	/* 1. Check the CRCL bit in SPI_CR1 register(8-bit or 16-bit data) */
+
+	if(pSPI_Handle->pSPIx->SPIx_CR1 & (1 << SPI_CR1_CRCL))
+	{
+		/* 16-bit data format */
+
+		/* 2. Load the data into the Data Register */
+
+		pSPI_Handle->pSPIx->SPIx_DR = (*(uint16_t *)pSPI_Handle->pTxBuffer);
+		pSPI_Handle->TxLen--;
+		pSPI_Handle->TxLen--;
+
+		/* Increment the Txbuffer so that it points to the next data item */
+		pSPI_Handle->pTxBuffer += 2;
+
+	}
+	else
+	{
+		/* 8-bit data format */
+
+		/* 2. Load the data into the Data Register */
+
+		pSPI_Handle->pSPIx->SPIx_DR = (*(uint16_t *)pSPI_Handle->pTxBuffer);
+		pSPI_Handle->TxLen--;
+
+		/* Increment the Txbuffer so that it points to the next data item */
+		pSPI_Handle->pTxBuffer += 1;
+	}
+
+	/* 3. Check if the length is zero */
+	if(pSPI_Handle->TxLen == 0)
+	{
+		/*4. Transmission is over, so close the SPI*/
+		/* This prevents interrupt from setting up of TXE flag */
+		SPI_Close_Transmission(pSPI_Handle);
+
+		/*5. inform the application that Tx is over */
+		SPI_ApplicationEventCallback(pSPI_Handle, SPI_EVENT_TX_COMPLETE);
+	}
+}
+
+static void SPI_RXNE_Interrupt_Handle(SPI_Handle_t *pSPI_Handle)
+{
+	/* 1. Check the CRCL bit in SPI_CR1 register(8-bit or 16-bit data) */
+
+	if(pSPI_Handle->pSPIx->SPIx_CR1 & (1 << SPI_CR1_CRCL))
+	{
+		/* 16-bit data format */
+
+		/* 2. Read  the data from the Data Register */
+
+		(*(uint16_t *)pSPI_Handle->pRxBuffer) = pSPI_Handle->pSPIx->SPIx_DR;
+		pSPI_Handle->RxLen--;
+		pSPI_Handle->RxLen--;
+
+		/* Increment the Rxbuffer so that it points to the next data item */
+		pSPI_Handle->pRxBuffer += 2;
+
+	}
+	else
+	{
+		/* 8-bit data format */
+
+		/* 2. Read  the data from the Data Register */
+
+		(*pSPI_Handle->pRxBuffer) = pSPI_Handle->pSPIx->SPIx_DR;
+		pSPI_Handle->RxLen--;
+
+		/* Increment the Rxbuffer so that it points to the next data item */
+		pSPI_Handle->pRxBuffer += 1;
+	}
+
+	/* 3. Check if the length is zero */
+	if(pSPI_Handle->RxLen == 0)
+	{
+		/*4. Reception is over, so close the SPI*/
+		/* This prevents interrupt from setting up of RXNE flag */
+		SPI_Close_Reception(pSPI_Handle);
+
+		/*5. inform the application that Rx is over */
+		SPI_ApplicationEventCallback(pSPI_Handle, SPI_EVENT_RX_COMPLETE);
+	}
+}
+static void SPI_OVR_ERRIE_Interrupt_Handle(SPI_Handle_t *pSPI_Handle) /* When SPI is busy in transmission and OVR occurs this function is not implemented
+																		User should clear the OVR flag on his own at that scenario */
+{
+	uint8_t temp;
+	/* 1. clear the OVR flag. It is cleared by reading the SPI_DR register followed by reading the SPI_SR register */
+	if(pSPI_Handle->TxState != SPI_BUSY_IN_TX)
+	{
+		temp = pSPI_Handle->pSPIx->SPIx_DR;
+		temp = pSPI_Handle->pSPIx->SPIx_SR;
+	}
+	(void)temp;
+	/* 2. Inform the application that error is cleared */
+	SPI_ApplicationEventCallback(pSPI_Handle, SPI_EVENT_OVR_ERR);
+}
+
 
