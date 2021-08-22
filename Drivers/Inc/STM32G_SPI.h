@@ -122,6 +122,13 @@ void SPI_sendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t len);
 void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t len);
 
 /*
+ * Data Send and Receive in interrupt mode
+ */
+uint8_t SPI_sendData_Interrupt(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t len);
+
+uint8_t SPI_ReceiveData_Interrupt(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t len);
+
+/*
  * IRQ Configuration and ISR Handling
  */
 

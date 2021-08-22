@@ -272,6 +272,86 @@ void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t len)
 
 /*********************************************************************************************************************************
  *
+ * Function Name 				- SPI_sendData_Interrupt
+ *
+ * Brief 						- This API is to receive data via SPI communication
+ *
+ * Param1						- address of SPI handle structure
+ * Param2						- address of Tx buffer
+ * Param3 						- length of the data to be transmitted
+ *
+ * Return 						-
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+uint8_t SPI_sendData_Interrupt(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t len)
+{
+	uint8_t state = pSPIHandle->TxState;
+
+	if(state != SPI_BUSY_IN_TX)
+	{
+	/* 1. Save the Tx buffer address and length information in global variables */
+
+	pSPIHandle->pTxBuffer = pTxBuffer;
+	pSPIHandle->TxLen = len;
+
+	/* 2. Mark SPI state as busy in transmission so that, no other code can take over same SPI peripheral until transmission is over */
+
+	pSPIHandle->TxState = SPI_BUSY_IN_TX;
+
+	/* 3. Enable TXEIE control bit in SPI_CR2 register to get interrupt whenever TXE flag is set */
+
+	pSPIHandle->pSPIx->SPIx_CR2 |= (1<<SPI_CR2_TXEIE);
+
+	/* 4. Data transmission will be handled by the ISR code */
+	}
+
+	return state;
+}
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- SPI_ReceiveData_Interrupt
+ *
+ * Brief 						- This API is to receive data via SPI communication
+ *
+ * Param1						- address of SPI handle structure
+ * Param2						- address of Rx buffer
+ * Param3 						- length of the data to be transmitted
+ *
+ * Return 						-
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+uint8_t SPI_ReceiveData_Interrupt(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t len)
+{
+	uint8_t state = pSPIHandle->RxState;
+
+	if(state != SPI_BUSY_IN_RX)
+	{
+	/* 1. Save the Tx buffer address and length information in global variables */
+
+	pSPIHandle->pRxBuffer = pRxBuffer;
+	pSPIHandle->RxLen = len;
+
+	/* 2. Mark SPI state as busy in transmission so that, no other code can take over same SPI peripheral until transmission is over */
+
+	pSPIHandle->RxState = SPI_BUSY_IN_RX;
+
+	/* 3. Enable TXEIE control bit in SPI_CR2 register to get interrupt whenever TXE flag is set */
+
+	pSPIHandle->pSPIx->SPIx_CR2 |= (1<<SPI_CR2_RXNEIE);
+
+	/* 4. Data transmission will be handled by the ISR code */
+	}
+
+	return state;
+}
+
+/*********************************************************************************************************************************
+ *
  * Function Name 				- SPI_Peripheral_Control
  *
  * Brief 						- This API enables the SPI in SPI_CR1 register
