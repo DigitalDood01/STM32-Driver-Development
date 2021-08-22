@@ -234,23 +234,41 @@ void SPI_sendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t len)
 	}
 }
 
+void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t len)
+{
+	while(len >0)
+	{
+		/* 1 Wait until the RXNE flag is set  */
 
-/*********************************************************************************************************************************
- *
- * Function Name 				- SPI_IRQ_Config
- *
- * Brief 						-
- *
- * Param1						-
- * Param2						-
- * Param3 						-
- *
- * Return 						-
- *
- * Note 						-
- ************************************************************************************************************************************/
+		while( SPI_Get_Flag_Status(pSPIx, SPI_RXNE_FLAG) == FLAG_SET );
 
-void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t len);
+		/* 2. Check the CRCL bit in SPI_CR1 register(8-bit or 16-bit data) */
+
+		if(pSPIx->SPIx_CR1 & (1 << SPI_CR1_CRCL))
+		{
+			/* 16-bit data format */
+
+			/* 3. Read the data from the Data Register */
+
+			(*(uint16_t *)pRxBuffer) = pSPIx->SPIx_DR;
+			len--;
+			len--;
+			/* Increment the Txbuffer so that it points to the next data item */
+			pRxBuffer += 2;
+
+		}
+		else
+		{
+			/* 8-bit data format */
+
+			/* 3. Read the data from the Data Register */
+
+			(*pRxBuffer) = pSPIx->SPIx_DR;
+			len--;
+			pRxBuffer++;
+		}
+	}
+}
 
 /*********************************************************************************************************************************
  *
