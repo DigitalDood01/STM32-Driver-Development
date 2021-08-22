@@ -148,5 +148,7 @@ void SPI_Clear_OVR_Flag(SPI_Handle_t *pSPI_Handle);
 void SPI_Close_Transmission(SPI_Handle_t *pSPI_Handle);
 void SPI_Close_Reception(SPI_Handle_t *pSPI_Handle);
 
+/* Application callback */
 
+void SPI_ApplicationEventCallback(SPI_Handle_t *pSPI_Handle, uint8_t Application_Event);
 #endif /* INC_STM32G_SPI_H_ */

@@ -751,3 +751,7 @@ static void SPI_OVR_ERRIE_Interrupt_Handle(SPI_Handle_t *pSPI_Handle) /* When SP
 }
 
 
+__attribute__((weak)) void SPI_ApplicationEventCallback(SPI_Handle_t *pSPI_Handle, uint8_t Application_Event)
+{
+	/* This is the weak implementation. The application can override this function */
+}
