@@ -234,6 +234,21 @@ void SPI_sendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t len)
 	}
 }
 
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- SPI_ReceiveData
+ *
+ * Brief 						- This API is to receive data via SPI communication
+ *
+ * Param1						- Base address of SPI port
+ * Param2						- address of Rx buffer
+ * Param3 						- length of the data to be transmitted
+ *
+ * Return 						-
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
 void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t len)
 {
 	while(len >0)
@@ -431,7 +446,7 @@ void SPI_SSOE_Config(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
  *
  * Function Name 				- SPI_IRQ_Config
  *
- * Brief 						-
+ * Brief 						- This function enables the interrupt, setting up the IRQ number
  *
  * Param1						-
  * Param2						-
@@ -480,7 +495,15 @@ void SPI_IRQ_Config(uint8_t IRQNumber,  uint8_t EnorDi)
  * Note 						-
  ************************************************************************************************************************************/
 
-void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
+void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
+{
+	/* 1. Find out the IPR register	 */
+	uint8_t iprx = IRQNumber / 4; 				/* There are 8 IPR registers so divide by 4 */
+	uint8_t ipr_section = IRQNumber % 4;		/* Each IPR register accomodates 4 IRQ numbers, so take modulo of 4 */
+
+	uint8_t shift_amount = ((ipr_section*8) +(8 - NO_OF_BITS_IN_PR_IMPLEMENTED));
+	NVIC->IPR[iprx] |= (IRQPriority << shift_amount);
+}
 
 
 /*********************************************************************************************************************************
