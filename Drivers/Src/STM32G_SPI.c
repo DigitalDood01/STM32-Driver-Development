@@ -521,6 +521,53 @@ void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
  * Note 						-
  ************************************************************************************************************************************/
 
-void SPI_IRQ_Handling(SPI_Handle_t *pSPI_Handle); 							/*this function handles the interrupt */
+void SPI_IRQ_Handling(SPI_Handle_t *pSPI_Handle) 							/*this function handles the interrupt */
+{
+	uint8_t temp1, temp2;
 
+	/* Lets check for the occurrence of TXE interrupt */
+	/* Store the state of TXE flag in temp1 local variable */
+
+	temp1 = pSPI_Handle->pSPIx->SPIx_SR & (1 << SPI_SR_TXE);
+
+	/* Store the state of TXEIE flag in temp1 local variable */
+
+	temp2 = pSPI_Handle->pSPIx->SPIx_CR2 & (1 << SPI_CR2_TXEIE);
+
+	if(temp1 && temp2)
+	{
+		/* Handle TXE */
+		SPI_TXE_Interrupt_Handle(pSPI_Handle);
+	}
+
+	/* Lets check for the occurrence of RXNE interrupt */
+	/* Store the state of RXNE flag in temp1 local variable */
+
+	temp1 = pSPI_Handle->pSPIx->SPIx_SR & (1 << SPI_SR_RXNE);
+
+	/* Store the state of RXNEIE flag in temp1 local variable */
+
+	temp2 = pSPI_Handle->pSPIx->SPIx_CR2 & (1 << SPI_CR2_RXNEIE);
+
+	if(temp1 && temp2)
+	{
+		/* Handle RXNE */
+		SPI_RXNE_Interrupt_Handle(pSPI_Handle);
+	}
+
+	/*  Lets check for the occurrence of OVR(overrun) interrupt */
+	/* Store the state of OVR flag in temp1 local variable */
+
+	temp1 = pSPI_Handle->pSPIx->SPIx_SR & (1 << SPI_SR_OVR);
+
+	/* Store the state of ERRIE flag in temp1 local variable */
+
+	temp2 = pSPI_Handle->pSPIx->SPIx_CR2 & (1 << SPI_CR2_ERRIE);
+
+	if(temp1 && temp2)
+	{
+		/* Handle OVR */
+		SPI_OVR_ERRIE_Interrupt_Handle(pSPI_Handle);
+	}
+}
 
