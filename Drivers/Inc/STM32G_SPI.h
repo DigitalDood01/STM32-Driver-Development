@@ -28,6 +28,15 @@ typedef struct
 {
 	SPI_RegDef_t *pSPIx;
 	SPI_Config_t SPI_Config;
+	uint8_t 	 *pTxBuffer; 		/* To store the applications's Tx buffer address */
+	uint8_t 	 *pRxBuffer; 		/* To store the applications's Rx buffer address */
+	uint32_t 	 TxLen;				/* To store the length of the Tx buffer */
+	uint32_t 	 RxLen;				/* To store the length of the Rx buffer */
+	uint8_t 	 TxState; 			/* To store the state of TXE flag */
+	uint8_t 	 RxState;			/* To store the state of RXNE flag */
+
+
+
 
 }SPI_Handle_t;
 
