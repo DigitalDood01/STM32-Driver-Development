@@ -314,9 +314,16 @@ typedef struct
 											(x == GPIOF) ? 05 : 0 )
 
 /* Macros for IRQ number */
+/* For GPIO*/
+
 #define IRQ_EXTI0_1							5
 #define IRQ_EXTI2_3							6
 #define IRQ_EXTI4_15						7
+
+/* For SPI */
+#define IRQ_SPI1 							25
+#define IRQ_SPI2_3							26
+
 
 /* Macros for IRQ priority */
 
