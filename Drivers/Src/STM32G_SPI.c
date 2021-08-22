@@ -441,7 +441,30 @@ void SPI_SSOE_Config(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
  *
  * Note 						-
  ************************************************************************************************************************************/
-void SPI_IRQ_Config(uint8_t IRQNumber,  uint8_t EnorDi);/* This function enables the interrupt, setting up the IRQ number*/
+
+void SPI_IRQ_Config(uint8_t IRQNumber,  uint8_t EnorDi)
+{
+	/* This function enables the interrupt, setting up the IRQ number*/
+	/* This involves configuring ISER register in Processor side */
+
+	if(EnorDi == ENABLE)
+	{
+		if(IRQNumber <= 31) 				/* 0 to 31 */
+		{
+			//program ISER0 register
+			NVIC->ISER |= (1 << IRQNumber);
+		}
+	}
+	else
+	{
+		if(IRQNumber <= 31) 				/* 0 to 31 */
+		{
+			//program ICER0 register
+			NVIC->ICER |= (1 << IRQNumber);
+		}
+	}
+
+}
 /*********************************************************************************************************************************
  *
  * Function Name 				- SPI_IRQPriorityConfig
