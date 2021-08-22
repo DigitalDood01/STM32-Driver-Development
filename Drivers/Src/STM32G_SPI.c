@@ -576,6 +576,78 @@ void SPI_IRQ_Handling(SPI_Handle_t *pSPI_Handle) 							/*this function handles 
 	}
 }
 
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- SPI_Clear_OVR_Flag
+ *
+ * Brief 						- This API clears the OVR flag in SPI_SR register
+ *
+ * Param1						- Base address of SPI peripheral
+ * Param2						-
+ * Param3 						-
+ *
+ * Return 						-
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+void SPI_Clear_OVR_Flag(SPI_Handle_t *pSPI_Handle)
+{
+	uint8_t temp;
+	/* clear the OVR flag. It is cleared by reading the SPI_DR register followed by reading the SPI_SR register */
+	if(pSPI_Handle->TxState != SPI_BUSY_IN_TX)
+	{
+		temp = pSPI_Handle->pSPIx->SPIx_DR;
+		temp = pSPI_Handle->pSPIx->SPIx_SR;
+	}
+	(void)temp;
+}
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- SPI_Close_Transmission
+ *
+ * Brief 						- This API abruptly closes the transmission which can be controlled by the user
+ *
+ * Param1						- Pointer to SPI_Handle structure pointer
+ * Param2						-
+ * Param3 						-
+ *
+ * Return 						-
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+void SPI_Close_Transmission(SPI_Handle_t *pSPI_Handle)
+{
+	pSPI_Handle->pSPIx->SPIx_CR2 &= ~(1 << SPI_CR2_TXEIE);
+	pSPI_Handle->pTxBuffer = NULL;
+	pSPI_Handle->TxLen = 0;
+	pSPI_Handle->TxState = SPI_READY;
+}
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- SPI_Close_Reception
+ *
+ * Brief 						- This API abruptly closes the reception which can be controlled by the user
+ *
+ * Param1						- Pointer to SPI_Handle structure pointer
+ * Param2						-
+ * Param3 						-
+ *
+ * Return 						-
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+void SPI_Close_Reception(SPI_Handle_t *pSPI_Handle)
+{
+	pSPI_Handle->pSPIx->SPIx_CR2 &= ~(1 << SPI_CR2_RXNEIE);
+	pSPI_Handle->pRxBuffer = NULL;
+	pSPI_Handle->RxLen = 0;
+	pSPI_Handle->RxState = SPI_READY;
+}
 /*****************************************Some helper functions implementation************************************************************************************/
 
 static void SPI_TXE_Interrupt_Handle(SPI_Handle_t *pSPI_Handle)

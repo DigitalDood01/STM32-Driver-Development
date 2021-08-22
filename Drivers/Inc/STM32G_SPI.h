@@ -9,6 +9,7 @@
 #define INC_STM32G_SPI_H_
 
 #include "STM32G070.h"
+#include <stddef.h>
 
 /* Configuration structure for SPIx peripherals */
 
@@ -89,6 +90,7 @@ typedef struct
 #define SPI_TXE_FLAG					(1 << SPI_SR_TXE)
 #define SPI_RXNE_FLAG					(1 << SPI_SR_RXNE)
 #define SPI_BUSY_FLAG					(1 << SPI_SR_BSY)
+
 /* Macros for possible SPI Application states */
 
 #define SPI_READY 						0
@@ -142,5 +144,9 @@ void SPI_IRQ_Handling(SPI_Handle_t *pSPI_Handle); 							/*this function handles
 void SPI_Peripheral_Control(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
 void SPI_SSOE_Config(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
 void SPI_SSI_Config(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
+void SPI_Clear_OVR_Flag(SPI_Handle_t *pSPI_Handle);
+void SPI_Close_Transmission(SPI_Handle_t *pSPI_Handle);
+void SPI_Close_Reception(SPI_Handle_t *pSPI_Handle);
+
 
 #endif /* INC_STM32G_SPI_H_ */
