@@ -142,7 +142,7 @@ int main(void)
 		{
 			/* fetch the data from the SPI peripheral byte by byte in interrupt mode */
 			while ( SPI_sendData_Interrupt(&SPI1Handle, &dummy, 1) == SPI_BUSY_IN_TX);
-			while ( SPI_ReceiveData_Interrupt(&SPI1Handle, (uint8_t)&ReadByte, 1) == SPI_BUSY_IN_RX );
+			while ( SPI_ReceiveData_Interrupt(&SPI1Handle, (uint8_t*)&ReadByte, 1) == SPI_BUSY_IN_RX );
 		}
 
 		// confirm SPI is not busy
