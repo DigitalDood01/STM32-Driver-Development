@@ -35,10 +35,6 @@ typedef struct
 	uint32_t 	 RxLen;				/* To store the length of the Rx buffer */
 	uint8_t 	 TxState; 			/* To store the state of TXE flag */
 	uint8_t 	 RxState;			/* To store the state of RXNE flag */
-
-
-
-
 }SPI_Handle_t;
 
 /******************************************* Macros for accessing the elements in SPI_Config_t structure**********************************************************/
