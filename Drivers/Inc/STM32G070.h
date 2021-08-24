@@ -322,6 +322,13 @@ typedef struct
 #define SPI2_REG_RESET()					do{ (RCC->APBENR1 |= (1<<14));  (RCC->APBENR1 &= ~(1<<14)); } while(0)
 #define SPI3_REG_RESET()					do{ (RCC->APBENR1 |= (1<<15));  (RCC->APBENR1 &= ~(1<<15)); } while(0)
 
+/* Macros to reset the I2C peripherals */
+
+#define I2C1_REG_RESET()					do{ (RCC->APBENR1 |= (1<<21));  (RCC->APBENR1 &= ~(1<<21)); } while(0)
+#define I2C2_REG_RESET()					do{ (RCC->APBENR1 |= (1<<22));  (RCC->APBENR1 &= ~(1<<22)); } while(0)
+#define I2C3_REG_RESET()					do{ (RCC->APBENR1 |= (1<<23));  (RCC->APBENR1 &= ~(1<<23)); } while(0)
+
+
 #define GPIO_BASE_ADDR_TO_CODE(x)			((x == GPIOA) ? 00 :\
 											(x == GPIOB) ? 01 :\
 											(x == GPIOC) ? 02 :\
