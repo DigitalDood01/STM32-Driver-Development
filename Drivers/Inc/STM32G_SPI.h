@@ -98,6 +98,7 @@ typedef struct
 #define SPI_EVENT_TX_COMPLETE 			1
 #define SPI_EVENT_RX_COMPLETE 			2
 #define SPI_EVENT_OVR_ERR	 			3
+
 /**********************************************************APIs Supported by this Driver***************************************************************************/
 
 /* Peripheral Clock setup */
