@@ -248,6 +248,11 @@ typedef struct
 #define SPI2								((SPI_RegDef_t*)SPI2_BASE_ADDR)
 #define SPI3								((SPI_RegDef_t*)SPI3_BASE_ADDR)
 
+/* Macro definition for base addresses for I2Cx peripherals */
+#define I2C1								((I2C_RegDef_t*)I2C1_BASE_ADDR)
+#define I2C2								((I2C_RegDef_t*)I2C2_BASE_ADDR)
+#define I2C3								((I2C_RegDef_t*)I2C3_BASE_ADDR)
+
 /* Clock enable Macros for GPIO peripherals */
 #define GPIOA_PCLOCK_EN()					(RCC->IOPENR |= (1<<0))
 #define GPIOB_PCLOCK_EN()					(RCC->IOPENR |= (1<<1))
