@@ -110,7 +110,7 @@ void GPIO_Button_Init(void)
 
 uint8_t SPI_Verify_Response(uint8_t ackbyte)
 {
-	if(ackbyte == 0xF5)
+	if(ackbyte == (uint8_t) 0xF5)
 	{
 		/* ACK */
 		return 1;
@@ -155,7 +155,7 @@ int main(void)
 	/* 1. CMD_LED_CTRL 		<PIN_NO_1> 			<VALUE>	 */
 
 	uint8_t command_code = COMMAND_LED_CTRL;
-	uint8_t ackbyte = 0;
+	static uint8_t ackbyte = 0;
 	uint8_t args[2];
 	uint8_t dummy_read = 0;
 	uint8_t dummy_write = 0xff;
