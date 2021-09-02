@@ -96,6 +96,19 @@ typedef struct
 	volatile uint32_t BRR;
 }GPIO_RegDef_t;
 
+/* Register definition structure for SPI */
+typedef struct
+{
+	volatile uint32_t SPIx_CR1;
+	volatile uint32_t SPIx_CR2;
+	volatile uint32_t SPIx_SR;
+	volatile uint32_t SPIx_DR;
+	volatile uint32_t SPIx_CRCPR;
+	volatile uint32_t SPIx_RXCRCR;
+	volatile uint32_t SPIx_TXCRCR;
+	volatile uint32_t SPIx_I2SCFGR;
+	volatile uint32_t SPIx_I2SPR;
+}SPI_RegDef_t;
 
 /* Register definition structure for RCC(Reset Clock Control)*/
 typedef struct
@@ -214,6 +227,10 @@ typedef struct
 /* Macro definition for base address for NVIC */
 #define NVIC 								((NVIC_RegDef_t*)NVIC_BASE_ADDR)
 
+/* Macro definition for base addresses for SPIx peripherals */
+#define SPI1								((SPI_RegDef_t*)SPI1_BASE_ADDR)
+#define SPI2								((SPI_RegDef_t*)SPI2_BASE_ADDR)
+#define SPI3								((SPI_RegDef_t*)SPI3_BASE_ADDR)
 
 /* Clock enable Macros for GPIO peripherals */
 #define GPIOA_PCLOCK_EN()					(RCC->IOPENR |= (1<<0))
@@ -283,6 +300,12 @@ typedef struct
 #define GPIOE_REG_RESET()					do{ (RCC->IOPRSTR |= (1<<4));	(RCC->IOPRSTR &= ~(1<<4)); } while(0)
 #define GPIOF_REG_RESET()					do{ (RCC->IOPRSTR |= (1<<5));	(RCC->IOPRSTR &= ~(1<<5)); } while(0)
 
+/* Macros to reset the SPI peripherals */
+
+#define SPI1_REG_RESET()					do{ (RCC->APBENR2 |= (1<<12));  (RCC->APBENR2 &= ~(1<<12)); } while(0)
+#define SPI2_REG_RESET()					do{ (RCC->APBENR1 |= (1<<14));  (RCC->APBENR1 &= ~(1<<14)); } while(0)
+#define SPI3_REG_RESET()					do{ (RCC->APBENR1 |= (1<<15));  (RCC->APBENR1 &= ~(1<<15)); } while(0)
+
 #define GPIO_BASE_ADDR_TO_CODE(x)			((x == GPIOA) ? 00 :\
 											(x == GPIOB) ? 01 :\
 											(x == GPIOC) ? 02 :\
@@ -291,9 +314,16 @@ typedef struct
 											(x == GPIOF) ? 05 : 0 )
 
 /* Macros for IRQ number */
+/* For GPIO*/
+
 #define IRQ_EXTI0_1							5
 #define IRQ_EXTI2_3							6
 #define IRQ_EXTI4_15						7
+
+/* For SPI */
+#define IRQ_SPI1 							25
+#define IRQ_SPI2_3							26
+
 
 /* Macros for IRQ priority */
 
@@ -321,4 +351,57 @@ typedef struct
 #define DISABLE 							0
 #define SET 								ENABLE
 #define RESET 								DISABLE
+#define FLAG_RESET							RESET
+#define FLAG_SET							SET
+
+
+/**************************************************** Bit Position macros for SPI registers*********************************************************************/
+
+/* for SPI_CR1 register */
+
+#define SPI_CR1_CPHA						0
+#define SPI_CR1_CPOL						1
+#define SPI_CR1_MSTR						2
+#define SPI_CR1_BAUDRATE					3
+#define SPI_CR1_SPE							6
+#define SPI_CR1_LSB_FIRST					7
+#define SPI_CR1_SSI							8
+#define SPI_CR1_SSM							9
+#define SPI_CR1_RXONLY						10
+#define SPI_CR1_CRCL						11
+#define SPI_CR1_CRCNEXT						12
+#define SPI_CR1_CRCEN						13
+#define SPI_CR1_BIDIOE						14
+#define SPI_CR1_BIDIMODE					15
+
+/* for SPI_CR2 register */
+
+#define SPI_CR2_RXDMAEN						0
+#define SPI_CR2_TXDMAEN						1
+#define SPI_CR2_SSOE						2
+#define SPI_CR2_NSSP						3
+#define SPI_CR2_FRF							4
+#define SPI_CR2_ERRIE						5
+#define SPI_CR2_RXNEIE						6
+#define SPI_CR2_TXEIE						7
+#define SPI_CR2_DATA_SIZE					8
+#define SPI_CR2_FRXTH						12
+#define SPI_CR2_LDMA_RX						13
+#define SPI_CR2_LDMA_TX						14
+
+/* for SPI_SR register */
+
+#define SPI_SR_RXNE							0
+#define SPI_SR_TXE							1
+#define SPI_SR_CHSIDE						2
+#define SPI_SR_UDR							3
+#define SPI_SR_CRCERR						4
+#define SPI_SR_MODF							5
+#define SPI_SR_OVR							6
+#define SPI_SR_BSY							7
+#define SPI_SR_FRE							8
+#define SPI_SR_FRVL							9
+#define SPI_SR_FTVL							11
+
+
 #endif /* INC_STM32G070_H_ */
