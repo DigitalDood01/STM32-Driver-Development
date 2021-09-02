@@ -652,6 +652,8 @@ void SPI_Close_Reception(SPI_Handle_t *pSPI_Handle)
 
 static void SPI_TXE_Interrupt_Handle(SPI_Handle_t *pSPI_Handle)
 {
+	while(pSPI_Handle->TxLen !=0)
+	{
 	/* 1. Check the CRCL bit in SPI_CR1 register(8-bit or 16-bit data) */
 
 	if(pSPI_Handle->pSPIx->SPIx_CR1 & (1 << SPI_CR1_CRCL))
@@ -674,13 +676,14 @@ static void SPI_TXE_Interrupt_Handle(SPI_Handle_t *pSPI_Handle)
 
 		/* 2. Load the data into the Data Register */
 
-		pSPI_Handle->pSPIx->SPIx_DR = (*(uint16_t *)pSPI_Handle->pTxBuffer);
+		pSPI_Handle->pSPIx->SPIx_DR = *pSPI_Handle->pTxBuffer;
 		pSPI_Handle->TxLen--;
 
 		/* Increment the Txbuffer so that it points to the next data item */
 		pSPI_Handle->pTxBuffer += 1;
 	}
 
+	}
 	/* 3. Check if the length is zero */
 	if(pSPI_Handle->TxLen == 0)
 	{
@@ -697,6 +700,8 @@ static void SPI_RXNE_Interrupt_Handle(SPI_Handle_t *pSPI_Handle)
 {
 	/* 1. Check the CRCL bit in SPI_CR1 register(8-bit or 16-bit data) */
 
+	while(pSPI_Handle->RxLen !=0)
+	{
 	if(pSPI_Handle->pSPIx->SPIx_CR1 & (1 << SPI_CR1_CRCL))
 	{
 		/* 16-bit data format */
@@ -722,6 +727,8 @@ static void SPI_RXNE_Interrupt_Handle(SPI_Handle_t *pSPI_Handle)
 
 		/* Increment the Rxbuffer so that it points to the next data item */
 		pSPI_Handle->pRxBuffer += 1;
+	}
+
 	}
 
 	/* 3. Check if the length is zero */
