@@ -58,8 +58,8 @@ void SPI1_GPIOInits(void)
 	GPIO_Init(&SPIPins);
 
 	/* MISO */
-	//SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO6;
-	//GPIO_Init(&SPIPins);
+	SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO6;
+	GPIO_Init(&SPIPins);
 
 	/* NSS */
 	SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO4;
@@ -77,7 +77,7 @@ void SPI1_Inits(void)
 	SPI1Handle.SPI_Config.SPI_CRCL = SPI_CRCL_8BITS;
 	SPI1Handle.SPI_Config.SPI_DeviceMode = SPI_DEVICE_MODE_MASTER;
 	SPI1Handle.SPI_Config.SPI_SSM = SPI_SSM_DISABLE;  					/* Software slave management is enabled for NSS pin */
-	SPI1Handle.SPI_Config.SPI_Speed = SPI_SCLK_SPEED_DIV8; 			/* generates serial clock of 8MHz */
+	SPI1Handle.SPI_Config.SPI_Speed = SPI_SCLK_SPEED_DIV32; 			/* generates serial clock of 8MHz */
 
 	/* Initialize the SPI1 peripheral */
 
@@ -124,8 +124,6 @@ int main(void)
 	*/
 	SPI_SSOE_Config(SPI1, ENABLE);
 
-	SPI_IRQ_Config(IRQ_SPI1, ENABLE);
-
 	while(1){
 
 		rcvStop = 0;
@@ -133,6 +131,8 @@ int main(void)
 		while(!dataAvailable); //wait till data available interrupt from transmitter device(slave)
 
 		GPIO_IRQ_Config(IRQ_EXTI4_15, DISABLE);
+
+		SPI_IRQ_Config(IRQ_SPI1, ENABLE);
 
 		//enable the SPI2 peripheral
 		SPI_Peripheral_Control(SPI1,ENABLE);
@@ -142,7 +142,7 @@ int main(void)
 		{
 			/* fetch the data from the SPI peripheral byte by byte in interrupt mode */
 			while ( SPI_sendData_Interrupt(&SPI1Handle, &dummy, 1) == SPI_BUSY_IN_TX);
-			while ( SPI_ReceiveData_Interrupt(&SPI1Handle, (uint8_t)&ReadByte, 1) == SPI_BUSY_IN_RX );
+			while ( SPI_ReceiveData_Interrupt(&SPI1Handle, (uint8_t*)&ReadByte, 1) == SPI_BUSY_IN_RX );
 		}
 
 		// confirm SPI is not busy
@@ -161,7 +161,6 @@ int main(void)
 /* Runs when a data byte is received from the peripheral over SPI*/
 void SPI1_IRQHandler(void)
 {
-
 	SPI_IRQ_Handling(&SPI1Handle);
 }
 
