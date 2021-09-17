@@ -10,6 +10,14 @@
 
 uint16_t AHB_PreScalar[8] = {2, 4, 8, 16, 32, 64, 128, 256};
 uint16_t APB1_PreScalar[4] = {2,4,8,16};
+
+/* Some private APIs */
+static void I2C_GenerateStartCondition(I2C_RegDef_t *pI2Cx);
+static void I2C_ExecuteAddressPhase(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr);
+static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx);
+
+
+
 /*********************************************************************************************************************************
  *
  * Function Name 				- I2C_PeriClkCtrl
@@ -257,6 +265,7 @@ void I2C_MasterSendData(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t 
 	I2C_GenerateStopCondition(pI2C_Handle->pI2Cx);
 }
 
+
 /*********************************************************************************************************************************
  *
  * Function Name 				- I2C_Get_Flag_Status
@@ -274,7 +283,11 @@ void I2C_MasterSendData(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t 
 
 uint8_t I2C_Get_Flag_Status(I2C_RegDef_t *pI2Cx, uint32_t Flagname)
 {
-	return 0;
+	if(pI2Cx->I2C_ISR & Flagname)
+	{
+		return FLAG_SET;
+	}
+	return FLAG_RESET;
 }
 
 /*********************************************************************************************************************************
@@ -363,4 +376,75 @@ void I2C_Peripheral_Control(I2C_RegDef_t *pI2Cx, uint8_t EnorDi)
 void I2C_ApplicationEventCallback(I2C_Handle_t *pI2C_Handle, uint8_t Application_Event)
 {
 
+}
+
+
+/**************************************Private Functions for I2C***********************************************************************************************/
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_GenerateStartCondition
+ *
+ * Brief 						- This API enables the START bit in I2C_CR2 register
+ *
+ * Param1						- Base address of I2C port
+ * Param2						-
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+static void I2C_GenerateStartCondition(I2C_RegDef_t *pI2Cx)
+{
+	uint32_t tempreg = 0;
+	tempreg |= (1 << I2C_CR2_START);
+	pI2Cx->I2C_CR2 |= tempreg;
+}
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_ExecuteAddressPhase
+ *
+ * Brief 						- This API loads the slave address to the TxDR register
+ *
+ * Param1						- Base address of I2C port
+ * Param2						- Address of the slave
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+static void I2C_ExecuteAddressPhase(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr)
+{
+	/* shift the slave address by one bit, making space for the R/W bit */
+	SlaveAddr = SlaveAddr <<1;
+	/* Clear the 0th bit as write operation is need to be performed */
+	SlaveAddr &= ~(1);
+	/* Load the slave address in DR register */
+	pI2Cx->I2C_TXDR = SlaveAddr;
+}
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_GenerateStopCondition
+ *
+ * Brief 						- This API enables the stop bit  in I2C_CR2 register
+ *
+ * Param1						- Base address of I2C port
+ * Param2						- Address of the slave
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx)
+{
+	uint32_t tempreg = 0;
+	tempreg |= (1 << I2C_CR2_STOP);
+	pI2Cx->I2C_CR2 |= tempreg;
 }
