@@ -1,6 +1,7 @@
 /startup
 /debug
 /.settings
+/.vscode
 .cproject
 .project
 /Release
