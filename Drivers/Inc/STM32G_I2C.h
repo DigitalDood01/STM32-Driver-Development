@@ -49,6 +49,23 @@ typedef struct
 #define I2C_FM_DUTY_2
 #define I2C_FM_DUTY_16_9
 
+
+/* I2C related status flags definitions */
+
+#define I2C_TXE_FLAG					(1 << I2C_ISR_TXE)
+#define I2C_RXNE_FLAG					(1 << I2C_ISR_RXNE)
+#define I2C_BUSY_FLAG					(1 << I2C_ISR_BUSY)
+#define I2C_TIMEOUT_FLAG				(1 << I2C_ISR_TIMEOUT)
+#define I2C_OVR_FLAG				    (1 << I2C_ISR_OVR)
+#define I2C_ARBITRATION_LOST_FLAG		(1 << I2C_ISR_ARLO)
+#define I2C_BUSERROR_FLAG				(1 << I2C_ISR_BERR)
+#define I2C_TCR_FLAG					(1 << I2C_ISR_TCR)
+#define I2C_TC_FLAG						(1 << I2C_ISR_TC)
+#define I2C_STOP_FLAG					(1 << I2C_ISR_STOPF)
+#define I2C_NACK_FLAG					(1 << I2C_ISR_NACKF)
+#define I2C_ADDRESS_MATCH_FLAG			(1 << I2C_ISR_ADDR)
+
+
 /**********************************************************APIs Supported by this Driver***************************************************************************/
 
 /* Peripheral Clock setup */
