@@ -217,6 +217,46 @@ void I2C_DeInit(I2C_RegDef_t *pI2Cx)							/* Resetting the I2C registers to the
 		I2C3_REG_RESET();
 	}
 }
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_MasterSendData
+ *
+ * Brief 						-
+ *
+ * Param1						-
+ * Param2						-
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+void I2C_MasterSendData(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t len, uint8_t SlaveAddr)
+{
+	/* 1. Generate the start condition */
+	I2C_GenerateStartCondition(pI2C_Handle->pI2Cx);
+
+	/* 2. Send address of slave with R/W set as 0 */
+	I2C_ExecuteAddressPhase(pI2C_Handle->pI2Cx, SlaveAddr);
+
+	/* 3. Send the data until len becomes 0 */
+
+	while(len > 0)
+	{
+	while(!I2C_Get_Flag_Status(pI2C_Handle->pI2Cx, I2C_TXE_FLAG)); /* Wait until TXE is set */
+	pI2C_Handle->pI2Cx->I2C_TXDR = *pTxBuffer;
+	pTxBuffer = pTxBuffer + sizeof(uint8_t);
+	len--;
+	}
+
+	/* 4.Wait until TXE is set after transmission */
+	while(!I2C_Get_Flag_Status(pI2C_Handle->pI2Cx, I2C_TXE_FLAG));
+
+	/* 5. Generate Stop Condition */
+	I2C_GenerateStopCondition(pI2C_Handle->pI2Cx);
+}
+
 /*********************************************************************************************************************************
  *
  * Function Name 				- I2C_Get_Flag_Status

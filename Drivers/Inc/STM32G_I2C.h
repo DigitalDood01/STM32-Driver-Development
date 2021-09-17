@@ -77,6 +77,11 @@ void I2C_PeriClkCtrl(I2C_RegDef_t *pI2Cx, uint8_t EnorDi);
 void I2C_Init(I2C_Handle_t *pI2C_Handle);
 void I2C_DeInit(I2C_RegDef_t *pI2Cx);							/* Resetting the I2C registers to the default values*/
 
+/*
+ * Send and Receive data
+ */
+void I2C_MasterSendData(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t len, uint8_t SlaveAddr);
+
 /* Get the flag the status */
 uint8_t I2C_Get_Flag_Status(I2C_RegDef_t *pI2Cx, uint32_t Flagname);
 
