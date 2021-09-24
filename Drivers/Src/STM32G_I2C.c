@@ -171,14 +171,18 @@ void I2C_Init(I2C_Handle_t *pI2C_Handle)
 {
 	uint32_t tempreg = 0;
 
-	/* 1. Configure the NACK Control */
-	tempreg |= pI2C_Handle->I2C_Config.I2C_NACKControl << I2C_CR2_NACK;
-	pI2C_Handle->pI2Cx->I2C_CR2 = tempreg;
-	tempreg = 0;
+	/* Enable the clock for I2C peripheral*/
+	I2C_PeriClkCtrl(pI2C_Handle->pI2Cx, ENABLE);
+
 	/* 2. Inorder to Configure the Clock for I2C get the system clock information from the RCC section */
 
 	/* output of RCC_GetPCLK1Value() is in MHz. so divide it by 1Mhz */
-	tempreg |= ((RCC_GetPCLK1Value() / 1000000U) << I2C_TIMINGR_PRESC);
+	//tempreg |= ((RCC_GetPCLK1Value() / 1000000U) << I2C_TIMINGR_PRESC);
+	tempreg = (RCC_GetPCLK1Value() / 1000000U);
+	tempreg = tempreg - sizeof(uint8_t);
+	tempreg = (tempreg << I2C_TIMINGR_PRESC);
+
+
 	pI2C_Handle->pI2Cx->I2C_TIMINGR = tempreg;
 	tempreg = 0;
 
@@ -371,7 +375,14 @@ void I2C_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
 
 void I2C_Peripheral_Control(I2C_RegDef_t *pI2Cx, uint8_t EnorDi)
 {
-
+	if(EnorDi == ENABLE)
+	{
+		pI2Cx->I2C_CR1 |= (1 << I2C_CR1_PE);
+	}
+	else
+	{
+		pI2Cx->I2C_CR1 &= ~(1 << I2C_CR1_PE);
+	}
 }
 void I2C_ApplicationEventCallback(I2C_Handle_t *pI2C_Handle, uint8_t Application_Event)
 {

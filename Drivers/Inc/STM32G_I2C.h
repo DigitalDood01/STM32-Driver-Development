@@ -42,7 +42,7 @@ typedef struct
 /* I2C ACKControl Configuration */
 
 #define I2C_NACK_ENABLE 					1
-#define I2C_NACK_DISABLE					O
+#define I2C_NACK_DISABLE					0
 
 /* I2C fast mode duty cycle */
 
