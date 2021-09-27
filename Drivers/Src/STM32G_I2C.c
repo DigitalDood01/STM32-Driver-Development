@@ -13,7 +13,9 @@ uint16_t APB1_PreScalar[4] = {2,4,8,16};
 
 /* Some private APIs */
 static void I2C_GenerateStartCondition(I2C_RegDef_t *pI2Cx);
-static void I2C_ExecuteAddressPhase(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr);
+static void I2C_ExecuteAddressPhaseWrite(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr);
+static void I2C_ExecuteAddressPhaseRead(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr);
+static void I2C_ClearAddrFlag(I2C_RegDef_t *pI2Cx);
 static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx);
 
 
@@ -250,7 +252,7 @@ void I2C_MasterSendData(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t 
 	I2C_GenerateStartCondition(pI2C_Handle->pI2Cx);
 
 	/* 2. Send address of slave with R/W set as 0 */
-	I2C_ExecuteAddressPhase(pI2C_Handle->pI2Cx, SlaveAddr);
+	I2C_ExecuteAddressPhaseWrite(pI2C_Handle->pI2Cx, SlaveAddr);
 
 	/* 3. Send the data until len becomes 0 */
 
@@ -268,7 +270,80 @@ void I2C_MasterSendData(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t 
 	/* 5. Generate Stop Condition */
 	I2C_GenerateStopCondition(pI2C_Handle->pI2Cx);
 }
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_MasterReceiveData
+ *
+ * Brief 						-
+ *
+ * Param1						-
+ * Param2						-
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+void I2C_MasterReceiveData(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint32_t len, uint8_t SlaveAddr)
+{
+	/*1.  Generate the Start condition */
+	I2C_GenerateStartCondition(pI2C_Handle->pI2Cx);
 
+	/* 2. Send address of slave with R/W set as 1 */
+	I2C_ExecuteAddressPhaseRead(pI2C_Handle->pI2Cx, SlaveAddr);
+
+	/* 3. Confirm that the address phase is completed by checking the ADDR bit in ISR register */
+	while(!I2C_Get_Flag_Status(pI2C_Handle->pI2Cx, I2C_ADDRESS_MATCH_FLAG));
+
+	/* Procedure to read only 1 byte from slave */
+	if(len ==1)
+	{
+		/* Disable acking */
+		I2C_Manage_NACKing(pI2C_Handle->pI2Cx, I2C_NACK_ENABLE);
+
+		/* Clear the Addr flag */
+		I2C_ClearAddrFlag(pI2C_Handle->pI2Cx);
+
+		/* wait until the RXNE flag is set to 1 */
+		while(!I2C_Get_Flag_Status(pI2C_Handle->pI2Cx, I2C_RXNE_FLAG));
+
+		/* Generate the stop condition */
+		I2C_GenerateStopCondition(pI2C_Handle->pI2Cx);
+
+		/* read data from the buffer */
+		*pRxBuffer = pI2C_Handle->pI2Cx->I2C_RXDR;
+	}
+
+	/* Procedure to read more than 1 byte of data */
+	if(len > 1)
+	{
+		/* Clear the Addr flag */
+		I2C_ClearAddrFlag(pI2C_Handle->pI2Cx);
+
+		for(uint32_t i = len; i > 0; i--)
+		{
+			/* wait until the RXNE flag is set to 1 */
+			while(!I2C_Get_Flag_Status(pI2C_Handle->pI2Cx, I2C_RXNE_FLAG));
+
+			if(i == 2) /* if only last 2 bytes are remaining */
+			{
+				/* Disable acking */
+				I2C_Manage_NACKing(pI2C_Handle->pI2Cx, I2C_NACK_ENABLE);
+
+				/* Generate the stop condition */
+				I2C_GenerateStopCondition(pI2C_Handle->pI2Cx);
+
+			}
+			/* read data from the buffer */
+			*pRxBuffer = pI2C_Handle->pI2Cx->I2C_RXDR;
+
+			/* Increment the buffer address */
+			pRxBuffer = pRxBuffer + sizeof(uint8_t);
+		}
+	}
+	/* Re-enable the ACKing */
+	I2C_Manage_NACKing(pI2C_Handle->pI2Cx, I2C_NACK_ENABLE);
+}
 
 /*********************************************************************************************************************************
  *
@@ -416,9 +491,9 @@ static void I2C_GenerateStartCondition(I2C_RegDef_t *pI2Cx)
 
 /*********************************************************************************************************************************
  *
- * Function Name 				- I2C_ExecuteAddressPhase
+ * Function Name 				- I2C_ExecuteAddressPhaseWrite
  *
- * Brief 						- This API loads the slave address to the TxDR register
+ * Brief 						- This API loads the slave address to the TxDR register(R/W = 0)
  *
  * Param1						- Base address of I2C port
  * Param2						- Address of the slave
@@ -429,12 +504,37 @@ static void I2C_GenerateStartCondition(I2C_RegDef_t *pI2Cx)
  * Note 						-
  ************************************************************************************************************************************/
 
-static void I2C_ExecuteAddressPhase(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr)
+static void I2C_ExecuteAddressPhaseWrite(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr)
 {
 	/* shift the slave address by one bit, making space for the R/W bit */
 	SlaveAddr = SlaveAddr <<1;
 	/* Clear the 0th bit as write operation is need to be performed */
 	SlaveAddr &= ~(1);
+	/* Load the slave address in DR register */
+	pI2Cx->I2C_TXDR = SlaveAddr;
+}
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_ExecuteAddressPhaseWrite
+ *
+ * Brief 						- This API loads the slave address to the TxDR register(R/W = 1)
+ *
+ * Param1						- Base address of I2C port
+ * Param2						- Address of the slave
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+static void I2C_ExecuteAddressPhaseRead(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr)
+{
+	/* shift the slave address by one bit, making space for the R/W bit */
+	SlaveAddr = SlaveAddr <<1;
+	/* Set the 0th bit as read operation is need to be performed */
+	SlaveAddr |= 1;
 	/* Load the slave address in DR register */
 	pI2Cx->I2C_TXDR = SlaveAddr;
 }
@@ -458,4 +558,52 @@ static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx)
 	uint32_t tempreg = 0;
 	tempreg |= (1 << I2C_CR2_STOP);
 	pI2Cx->I2C_CR2 |= tempreg;
+}
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_ClearAddrFlag
+ *
+ * Brief 						- This API enables the stop bit  in I2C_CR2 register
+ *
+ * Param1						- Base address of I2C port
+ * Param2						- Address of the slave
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+static void I2C_ClearAddrFlag(I2C_RegDef_t *pI2Cx)
+{
+	pI2Cx->I2C_ICR &= ~(1 << I2C_ICR_ADDRCF);
+}
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_Manage_NACKing
+ *
+ * Brief 						- This API enables the stop bit  in I2C_CR2 register
+ *
+ * Param1						- Base address of I2C port
+ * Param2						- Address of the slave
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+void I2C_Manage_NACKing(I2C_RegDef_t *pI2Cx, uint8_t EnorDi)
+{
+	if(EnorDi == I2C_NACK_DISABLE)
+	{
+		/* Enable the ack */
+		pI2Cx->I2C_CR2 &= ~(1 << I2C_CR2_NACK);
+	}
+	else
+	{
+		/* Enable the Nack */
+		pI2Cx->I2C_CR2 |= (1 << I2C_CR2_NACK);
+	}
 }

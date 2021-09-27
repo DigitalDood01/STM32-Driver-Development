@@ -81,6 +81,8 @@ void I2C_DeInit(I2C_RegDef_t *pI2Cx);							/* Resetting the I2C registers to th
  * Send and Receive data
  */
 void I2C_MasterSendData(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t len, uint8_t SlaveAddr);
+void I2C_MasterReceiveData(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint32_t len, uint8_t SlaveAddr);
+
 
 /* Get the flag the status */
 uint8_t I2C_Get_Flag_Status(I2C_RegDef_t *pI2Cx, uint32_t Flagname);
@@ -98,6 +100,7 @@ void I2C_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
 /* Other peripheral control APIs */
 
 void I2C_Peripheral_Control(I2C_RegDef_t *pI2Cx, uint8_t EnorDi);
+void I2C_Manage_NACKing(I2C_RegDef_t *pI2Cx, uint8_t EnorDi);
 
 
 /* Application callback */
