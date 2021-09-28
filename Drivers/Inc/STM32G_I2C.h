@@ -65,7 +65,8 @@ typedef struct
 #define I2C_NACK_FLAG					(1 << I2C_ISR_NACKF)
 #define I2C_ADDRESS_MATCH_FLAG			(1 << I2C_ISR_ADDR)
 
-
+#define I2C_DISABLE_SR 					RESET
+#define I2C_ENABLE_SR					SET
 /**********************************************************APIs Supported by this Driver***************************************************************************/
 
 /* Peripheral Clock setup */
@@ -80,8 +81,8 @@ void I2C_DeInit(I2C_RegDef_t *pI2Cx);							/* Resetting the I2C registers to th
 /*
  * Send and Receive data
  */
-void I2C_MasterSendData(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t len, uint8_t SlaveAddr);
-void I2C_MasterReceiveData(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint32_t len, uint8_t SlaveAddr);
+void I2C_MasterSendData(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t len, uint8_t SlaveAddr,uint8_t Sr);
+void I2C_MasterReceiveData(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint32_t len, uint8_t SlaveAddr,uint8_t Sr);
 
 
 /* Get the flag the status */
