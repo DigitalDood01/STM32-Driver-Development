@@ -358,22 +358,13 @@ typedef struct
 
 /* Macros for IRQ priority */
 
-#define NVIC_IRQ_PRIORITY0 					0
-#define NVIC_IRQ_PRIORITY1 					1
-#define NVIC_IRQ_PRIORITY2 					2
-#define NVIC_IRQ_PRIORITY3 					3
-#define NVIC_IRQ_PRIORITY4 					4
-#define NVIC_IRQ_PRIORITY5 					5
-#define NVIC_IRQ_PRIORITY6 					6
-#define NVIC_IRQ_PRIORITY7 					7
-#define NVIC_IRQ_PRIORITY8 					8
-#define NVIC_IRQ_PRIORITY9 					9
-#define NVIC_IRQ_PRIORITY10 				10
-#define NVIC_IRQ_PRIORITY11 				11
-#define NVIC_IRQ_PRIORITY12 				12
-#define NVIC_IRQ_PRIORITY13 				13
-#define NVIC_IRQ_PRIORITY14 				14
-#define NVIC_IRQ_PRIORITY15 				15
+#define NVIC_IRQ_PRIORITY_EXTI_0_1 			12
+#define NVIC_IRQ_PRIORITY_EXTI_2_3 			13
+#define NVIC_IRQ_PRIORITY_EXTI_4_15 		14
+#define NVIC_IRQ_PRIORITY_SPI_1 			32
+#define NVIC_IRQ_PRIORITY_SPI_2_3 			33
+#define NVIC_IRQ_PRIORITY_I2C_1 			30
+#define NVIC_IRQ_PRIORITY_I2C_2_3 			31
 
 
 /* Some generic Macros*/
