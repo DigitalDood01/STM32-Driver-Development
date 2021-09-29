@@ -29,6 +29,7 @@ typedef struct
 	I2C_RegDef_t *pI2Cx;
 	I2C_Config_t I2C_Config;
 	uint8_t 	 *pTxBuffer;
+	uint8_t 	 *pRxBuffer;
 	uint32_t 	  RxLen;
 	uint32_t 	  TxLen;
 	uint8_t 	  TxRxStatus;

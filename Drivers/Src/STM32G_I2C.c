@@ -374,7 +374,23 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint32
 
 uint8_t I2C_MasterSendDataInterrupt(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t len, uint8_t SlaveAddr,uint8_t Sr)
 {
-	return 0;
+	uint8_t busystate = pI2C_Handle->TxRxStatus;
+
+	if((busystate != I2C_BUSY_IN_TX) && (busystate != I2C_BUSY_IN_TX))
+	{
+		pI2C_Handle->pTxBuffer = pTxBuffer;
+		pI2C_Handle->TxLen = len;
+		pI2C_Handle->TxRxStatus = I2C_BUSY_IN_TX;
+		pI2C_Handle->DevAddr = SlaveAddr;
+		pI2C_Handle->Sr = Sr;
+
+		/*1.  Generate the Start condition */
+		I2C_GenerateStartCondition(pI2C_Handle->pI2Cx);
+
+		/*2 Enable the TXIE bit in I2C_CR1 register*/
+		pI2C_Handle->pI2Cx->I2C_CR1 |= (1 << I2C_CR1_TXIE);
+	}
+	return busystate;
 }
 
 /*********************************************************************************************************************************
@@ -395,7 +411,23 @@ uint8_t I2C_MasterSendDataInterrupt(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffe
 
 uint8_t I2C_MasterReceiveDataInterrupt(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint32_t len, uint8_t SlaveAddr,uint8_t Sr)
 {
-	return 0;
+	uint8_t busystate = pI2C_Handle->TxRxStatus;
+
+	if((busystate != I2C_BUSY_IN_TX) && (busystate != I2C_BUSY_IN_TX))
+	{
+		pI2C_Handle->pRxBuffer = pRxBuffer;
+		pI2C_Handle->RxLen = len;
+		pI2C_Handle->TxRxStatus = I2C_BUSY_IN_RX;
+		pI2C_Handle->DevAddr = SlaveAddr;
+		pI2C_Handle->Sr = Sr;
+
+		/*1.  Generate the Start condition */
+		I2C_GenerateStartCondition(pI2C_Handle->pI2Cx);
+
+		/*2 Enable the RXIE bit in I2C_CR1 register*/
+		pI2C_Handle->pI2Cx->I2C_CR1 |= (1 << I2C_CR1_RXIE);
+	}
+	return busystate;
 }
 /*********************************************************************************************************************************
  *
@@ -619,7 +651,7 @@ static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx)
  * Brief 						- This API clears the Addr flag   in I2C_ICR register
  *
  * Param1						- Base address of I2C port
- * Param2						- Address of the slave
+ * Param2						-
  * Param3 						-
  *
  * Return 						- None
@@ -638,7 +670,7 @@ static void I2C_ClearAddrFlag(I2C_RegDef_t *pI2Cx)
  * Brief 						- This API enables or diables the NACK bit in I2C_CR2 register
  *
  * Param1						- Base address of I2C port
- * Param2						- Address of the slave
+ * Param2						- Enable or diable macro
  * Param3 						-
  *
  * Return 						- None
