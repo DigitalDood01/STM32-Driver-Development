@@ -352,6 +352,9 @@ typedef struct
 #define IRQ_SPI1 							25
 #define IRQ_SPI2_3							26
 
+/* For I2C */
+#define IRQ_I2C1 							23
+#define IRQ_I2C2_3							24
 
 /* Macros for IRQ priority */
 
