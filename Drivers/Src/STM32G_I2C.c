@@ -360,14 +360,14 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint32
  *
  * Function Name 				- I2C_MasterSendDataInterrupt
  *
- * Brief 						- This API receives data from slave using blocking method
+ * Brief 						- This API sends data from master using interrupt mode
  *
  * Param1						- Address of I2C handle
  * Param2						- Address of Txbuffer
  * Param3 						- length of the Txbuffer
  * Param4						- Slave address
  * Param5 						- Enable disable macro for repeated start condition
- * Return 						- None
+ * Return 						- status of Tx
  *
  * Note 						-
  ************************************************************************************************************************************/
@@ -381,14 +381,14 @@ uint8_t I2C_MasterSendDataInterrupt(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffe
  *
  * Function Name 				- I2C_MasterReceiveDataInterrupt
  *
- * Brief 						- This API receives data from slave using blocking method
+ * Brief 						- This API receives data from slave using interrupt method
  *
  * Param1						- Address of I2C handle
  * Param2						- Address of Txbuffer
  * Param3 						- length of the Txbuffer
  * Param4						- Slave address
  * Param5 						- Enable disable macro for repeated start condition
- * Return 						- None
+ * Return 						- status of Rx
  *
  * Note 						-
  ************************************************************************************************************************************/
@@ -401,10 +401,10 @@ uint8_t I2C_MasterReceiveDataInterrupt(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBu
  *
  * Function Name 				- I2C_Get_Flag_Status
  *
- * Brief 						- It enables or disables the clock for I2C in RCC registers
+ * Brief 						- It returns the state of the flags in I2C peripheral
  *
  * Param1						- Address of I2Cx peripheral
- * Param2						- enable or disable macro
+ * Param2						- Macro of the flag name
  * Param3 						-
  *
  * Return 						- flag is set or reset
@@ -427,11 +427,11 @@ uint8_t I2C_Get_Flag_Status(I2C_RegDef_t *pI2Cx, uint32_t Flagname)
  *
  * Brief 						- This function enables the interrupt, setting up the IRQ number
  *
- * Param1						-
- * Param2						-
+ * Param1						- IRQ number
+ * Param2						- Enable or disable macro
  * Param3 						-
  *
- * Return 						-
+ * Return 						- None
  *
  * Note 						-
  ************************************************************************************************************************************/
@@ -464,13 +464,13 @@ void I2C_IRQ_Config(uint8_t IRQNumber,  uint8_t EnorDi)/* This function enables 
  *
  * Function Name 				- I2C_IRQPriorityConfig
  *
- * Brief 						-
+ * Brief 						- This API configures the interrupt priority
  *
- * Param1						-
- * Param2						-
+ * Param1						- IEQ number
+ * Param2						- IRQ priority
  * Param3 						-
  *
- * Return 						-
+ * Return 						- None
  *
  * Note 						-
  ************************************************************************************************************************************/
@@ -616,7 +616,7 @@ static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx)
  *
  * Function Name 				- I2C_ClearAddrFlag
  *
- * Brief 						- This API enables the stop bit  in I2C_CR2 register
+ * Brief 						- This API clears the Addr flag   in I2C_ICR register
  *
  * Param1						- Base address of I2C port
  * Param2						- Address of the slave
@@ -635,7 +635,7 @@ static void I2C_ClearAddrFlag(I2C_RegDef_t *pI2Cx)
  *
  * Function Name 				- I2C_Manage_NACKing
  *
- * Brief 						- This API enables the stop bit  in I2C_CR2 register
+ * Brief 						- This API enables or diables the NACK bit in I2C_CR2 register
  *
  * Param1						- Base address of I2C port
  * Param2						- Address of the slave
