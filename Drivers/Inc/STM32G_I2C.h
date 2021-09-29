@@ -28,7 +28,13 @@ typedef struct
 {
 	I2C_RegDef_t *pI2Cx;
 	I2C_Config_t I2C_Config;
-
+	uint8_t 	 *pTxBuffer;
+	uint32_t 	  RxLen;
+	uint32_t 	  TxLen;
+	uint8_t 	  TxRxStatus;
+	uint8_t 	  DevAddr;
+	uint32_t 	  RxSize;
+	uint8_t 	  Sr;
 }I2C_Handle_t;
 
 /******************************************* Macros for accessing the elements in I2C_Config_t structure***********************************************************/
@@ -67,6 +73,11 @@ typedef struct
 
 #define I2C_DISABLE_SR 					RESET
 #define I2C_ENABLE_SR					SET
+
+/* I2C Application states */
+#define I2C_READY 						0
+#define I2C_BUSY_IN_RX 					1
+#define I2C_BUSY_IN_TX 					2
 /**********************************************************APIs Supported by this Driver***************************************************************************/
 
 /* Peripheral Clock setup */
