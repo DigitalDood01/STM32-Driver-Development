@@ -236,12 +236,13 @@ void I2C_DeInit(I2C_RegDef_t *pI2Cx)							/* Resetting the I2C registers to the
  *
  * Function Name 				- I2C_MasterSendData
  *
- * Brief 						-
+ * Brief 						- This API sends data from master using blocking method
  *
- * Param1						-
- * Param2						-
- * Param3 						-
- *
+ * Param1						- Address of I2C handle
+ * Param2						- Address of Txbuffer
+ * Param3 						- length of the Txbuffer
+ * Param4						- Slave address
+ * Param5 						- Enable disable macro for repeated start condition
  * Return 						- None
  *
  * Note 						-
@@ -278,12 +279,13 @@ void I2C_MasterSendData(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t 
  *
  * Function Name 				- I2C_MasterReceiveData
  *
- * Brief 						-
+ * Brief 						- This API receives data from slave using blocking method
  *
- * Param1						-
- * Param2						-
- * Param3 						-
- *
+ * Param1						- Address of I2C handle
+ * Param2						- Address of Txbuffer
+ * Param3 						- length of the Txbuffer
+ * Param4						- Slave address
+ * Param5 						- Enable disable macro for repeated start condition
  * Return 						- None
  *
  * Note 						-
@@ -354,6 +356,47 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint32
 	I2C_Manage_NACKing(pI2C_Handle->pI2Cx, I2C_NACK_ENABLE);
 }
 
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_MasterSendDataInterrupt
+ *
+ * Brief 						- This API receives data from slave using blocking method
+ *
+ * Param1						- Address of I2C handle
+ * Param2						- Address of Txbuffer
+ * Param3 						- length of the Txbuffer
+ * Param4						- Slave address
+ * Param5 						- Enable disable macro for repeated start condition
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+uint8_t I2C_MasterSendDataInterrupt(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t len, uint8_t SlaveAddr,uint8_t Sr)
+{
+	return 0;
+}
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_MasterReceiveDataInterrupt
+ *
+ * Brief 						- This API receives data from slave using blocking method
+ *
+ * Param1						- Address of I2C handle
+ * Param2						- Address of Txbuffer
+ * Param3 						- length of the Txbuffer
+ * Param4						- Slave address
+ * Param5 						- Enable disable macro for repeated start condition
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+uint8_t I2C_MasterReceiveDataInterrupt(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint32_t len, uint8_t SlaveAddr,uint8_t Sr)
+{
+	return 0;
+}
 /*********************************************************************************************************************************
  *
  * Function Name 				- I2C_Get_Flag_Status

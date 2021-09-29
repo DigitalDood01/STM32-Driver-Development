@@ -78,6 +78,7 @@ typedef struct
 #define I2C_READY 						0
 #define I2C_BUSY_IN_RX 					1
 #define I2C_BUSY_IN_TX 					2
+
 /**********************************************************APIs Supported by this Driver***************************************************************************/
 
 /* Peripheral Clock setup */
@@ -95,6 +96,11 @@ void I2C_DeInit(I2C_RegDef_t *pI2Cx);							/* Resetting the I2C registers to th
 void I2C_MasterSendData(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t len, uint8_t SlaveAddr,uint8_t Sr);
 void I2C_MasterReceiveData(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint32_t len, uint8_t SlaveAddr,uint8_t Sr);
 
+/*
+ * Send and Receive data using interrupt
+ */
+uint8_t I2C_MasterSendDataInterrupt(I2C_Handle_t *pI2C_Handle, uint8_t *pTxBuffer, uint32_t len, uint8_t SlaveAddr,uint8_t Sr);
+uint8_t I2C_MasterReceiveDataInterrupt(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint32_t len, uint8_t SlaveAddr,uint8_t Sr);
 
 /* Get the flag the status */
 uint8_t I2C_Get_Flag_Status(I2C_RegDef_t *pI2Cx, uint32_t Flagname);
