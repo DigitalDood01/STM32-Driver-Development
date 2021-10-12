@@ -15,10 +15,10 @@ uint16_t APB1_PreScalar[4] = {2,4,8,16};
 static void I2C_GenerateStartCondition(I2C_RegDef_t *pI2Cx);
 static void I2C_ExecuteAddressPhaseWrite(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr);
 static void I2C_ExecuteAddressPhaseRead(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr);
-static void I2C_ClearAddrFlag(I2C_RegDef_t *pI2Cx);
+static void I2C_ClearAddrFlag(I2C_Handle_t *pI2C_Handle);
 static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx);
-
-
+static void I2C_Close_Receive_Data(I2C_Handle_t *pI2C_Handle);
+static void I2C_Close_Send_Data(I2C_Handle_t *pI2C_Handle);
 
 /*********************************************************************************************************************************
  *
@@ -308,7 +308,7 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint32
 		I2C_Manage_NACKing(pI2C_Handle->pI2Cx, I2C_NACK_ENABLE);
 
 		/* Clear the Addr flag */
-		I2C_ClearAddrFlag(pI2C_Handle->pI2Cx);
+		I2C_ClearAddrFlag(pI2C_Handle);
 
 		/* wait until the RXNE flag is set to 1 */
 		while(!I2C_Get_Flag_Status(pI2C_Handle->pI2Cx, I2C_RXNE_FLAG));
@@ -327,7 +327,7 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint32
 	if(len > 1)
 	{
 		/* Clear the Addr flag */
-		I2C_ClearAddrFlag(pI2C_Handle->pI2Cx);
+		I2C_ClearAddrFlag(pI2C_Handle);
 
 		for(uint32_t i = len; i > 0; i--)
 		{
@@ -656,11 +656,25 @@ static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx)
  *
  * Return 						- None
  *
- * Note 						-
- ************************************************************************************************************************************/
-static void I2C_ClearAddrFlag(I2C_RegDef_t *pI2Cx)
+ * Note 						- This flag is set by the hardware. In order to clear the flag ADDRCF bit in ISR register should be set to 1
+ ******************************************************************************************************************************************/
+static void I2C_ClearAddrFlag(I2C_Handle_t *pI2C_Handle)
 {
-	pI2Cx->I2C_ICR &= ~(1 << I2C_ICR_ADDRCF);
+	if(pI2C_Handle->TxRxStatus == I2C_BUSY_IN_RX)
+	{
+	if(pI2C_Handle->RxLen ==1)
+	{
+		/* manage the NACK */
+		I2C_Manage_NACKing(pI2C_Handle->pI2Cx, ENABLE);
+
+		pI2C_Handle->pI2Cx->I2C_ICR |= (1 << I2C_ICR_ADDRCF);
+	}
+	pI2C_Handle->pI2Cx->I2C_ICR |= (1 << I2C_ICR_ADDRCF);
+	}
+	else
+	{
+		pI2C_Handle->pI2Cx->I2C_ICR |= (1 << I2C_ICR_ADDRCF);
+	}
 }
 
 /*********************************************************************************************************************************
@@ -689,5 +703,191 @@ void I2C_Manage_NACKing(I2C_RegDef_t *pI2Cx, uint8_t EnorDi)
 	{
 		/* Enable the Nack */
 		pI2Cx->I2C_CR2 |= (1 << I2C_CR2_NACK);
+	}
+}
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_Close_Receive_Data
+ *
+ * Brief 						- This API is for closing the I2C reception process with interrupt
+ *
+ * Param1						- I2C handle structure
+ * Param2						-
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+static void I2C_Close_Receive_Data(I2C_Handle_t *pI2C_Handle)
+{
+
+}
+static void I2C_Close_Send_Data(I2C_Handle_t *pI2C_Handle)
+{
+
+}
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_Close_Receive_Data
+ *
+ * Brief 						- This API is for closing the I2C transmission process with interrupt
+ *
+ * Param1						- I2C handle structure
+ * Param2						-
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_IRQ_Handling
+ *
+ * Brief 						- This API is for handling the interrupt when Rx/Tx flag is affected or due to any error condictions
+ *
+ * Param1						- I2C handle structure
+ * Param2						-
+ * Param3 						-
+ *
+ * Return 						- None
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+void I2C_IRQ_Handling(I2C_Handle_t *pI2C_Handle)
+{
+	/* Interrupt handling for both master and slave mode of a device */
+
+	uint32_t temp1, temp2;
+	/*1. Interrupt handler for TXE event */
+	temp1 = pI2C_Handle->pI2Cx->I2C_CR1 & (1 << I2C_CR1_TXIE);
+	temp2 = pI2C_Handle->pI2Cx->I2C_ISR & (1 << I2C_ISR_TXE);
+
+	if(temp1 && temp2)
+	{
+		/* handle the TXe event */
+		/* The TXE flag is set */
+		/* do the data transmission */
+
+		if(pI2C_Handle->TxRxStatus == I2C_BUSY_IN_TX)
+		{
+			if(pI2C_Handle->TxLen == 0)
+			{
+				/* Load the data into the Data register */
+				pI2C_Handle->pI2Cx->I2C_TXDR = *(pI2C_Handle->pTxBuffer);
+
+				/* Decrement the Txlen */
+				pI2C_Handle->TxLen--;
+				/* Increment the TxBuffer */
+				pI2C_Handle->pTxBuffer++;
+			}
+		}
+		I2C_Close_Send_Data(pI2C_Handle);
+	}
+
+
+	/*2. Interrupt handler for RXe event */
+	temp1 = pI2C_Handle->pI2Cx->I2C_CR1 & (1 << I2C_CR1_RXIE);
+	temp2 = pI2C_Handle->pI2Cx->I2C_ISR & (1 << I2C_ISR_RXNE);
+
+	if(temp1 && temp2)
+	{
+		/* handle the RXe event */
+		/* The RXNE flag is set */
+		/* Do the data reception*/
+
+		if(pI2C_Handle->TxRxStatus == I2C_BUSY_IN_RX)
+		{
+			if(pI2C_Handle->RxLen == 1)
+			{
+				*(pI2C_Handle->pRxBuffer) = pI2C_Handle->pI2Cx->I2C_RXDR;
+
+				pI2C_Handle->RxLen--;
+
+			}
+
+			if(pI2C_Handle->RxSize > 1)
+			{
+				if(pI2C_Handle->RxLen ==2)
+				{
+					/* manage the NACK */
+					I2C_Manage_NACKing(pI2C_Handle->pI2Cx, ENABLE);
+				}
+
+				/* Read the RxData Register */
+				*(pI2C_Handle->pRxBuffer) = pI2C_Handle->pI2Cx->I2C_RXDR;
+
+				pI2C_Handle->RxLen--;
+
+				pI2C_Handle->pRxBuffer++;
+			}
+
+			if(pI2C_Handle->RxLen == 0)
+			{
+				/* Close the I2C data reception and notify the application*/
+
+				/*1. Generate the stop condition*/
+				if(pI2C_Handle->Sr == I2C_DISABLE_SR)
+				{
+					/* Generate the stop condition */
+					I2C_GenerateStopCondition(pI2C_Handle->pI2Cx);
+				}
+
+				I2C_Close_Receive_Data(pI2C_Handle);
+
+				I2C_ApplicationEventCallback(pI2C_Handle, I2C_EVENT_RX_COMPLETE);
+			}
+		}
+
+	}
+
+	/*3.Interrupt handler for STOP event */
+	temp1 = pI2C_Handle->pI2Cx->I2C_CR1 & (1 << I2C_CR1_STOPIE);
+	temp2 = pI2C_Handle->pI2Cx->I2C_ISR & (1 << I2C_ISR_STOPF);
+
+	if(temp1 && temp2)
+	{
+		/* handle the STOP event */
+		/* The stop flag is set */
+		pI2C_Handle->pI2Cx->I2C_ICR |= (1 << I2C_ICR_STOPCF);
+
+		/* Notify the Application that the STOP is detected */
+		I2C_ApplicationEventCallback(pI2C_Handle, I2C_EVENT_TX_COMPLETE);
+	}
+
+	/*4.Interrupt handler for Transfer Complete event */
+	temp1 = pI2C_Handle->pI2Cx->I2C_CR1 & (1 << I2C_CR1_TCIE);
+	temp2 = pI2C_Handle->pI2Cx->I2C_ISR & (1 << I2C_ISR_TC);
+
+	if(temp1 && temp2)
+	{
+		/* handle the Transfer Complete event */
+		pI2C_Handle->pI2Cx->I2C_CR2 |= (1 << I2C_CR2_STOP);
+		I2C_ApplicationEventCallback(pI2C_Handle, I2C_EVENT_TX_COMPLETE);
+	}
+
+	/*5.Interrupt handler for Address Match event */
+	temp1 = pI2C_Handle->pI2Cx->I2C_CR1 & (1 << I2C_CR1_ADDRIE);
+	temp2 = pI2C_Handle->pI2Cx->I2C_ISR & (1 << I2C_ISR_ADDR);
+
+	if(temp1 && temp2)
+	{
+		/* handle the Address Match event */
+		/* Clear the ADDR flag */
+		I2C_ClearAddrFlag(pI2C_Handle);
+	}
+
+	/*6.Interrupt handler for NACK Reception event */
+	temp1 = pI2C_Handle->pI2Cx->I2C_CR1 & (1 << I2C_CR1_NACKIE);
+	temp2 = pI2C_Handle->pI2Cx->I2C_ISR & (1 << I2C_ISR_NACKF);
+
+	if(temp1 && temp2)
+	{
+		/* handle the NACK Reception event */
 	}
 }

@@ -59,7 +59,7 @@ int main(void)
 	/* IRQ Configurations */
 	GPIO_IRQ_Config(IRQ_EXTI4_15, ENABLE);
 
-	GPIO_IRQPriorityConfig(IRQ_EXTI4_15, NVIC_IRQ_PRIORITY14);
+	GPIO_IRQPriorityConfig(IRQ_EXTI4_15, NVIC_IRQ_PRIORITY_EXTI_4_15);
 	while(1);
 
 }

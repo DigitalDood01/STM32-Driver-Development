@@ -80,6 +80,11 @@ typedef struct
 #define I2C_BUSY_IN_RX 					1
 #define I2C_BUSY_IN_TX 					2
 
+/* Possible I2C application events */
+
+#define I2C_EVENT_TX_COMPLETE 			1
+#define I2C_EVENT_RX_COMPLETE 			2
+#define I2C_EVENT_OVR_ERR	 			3
 /**********************************************************APIs Supported by this Driver***************************************************************************/
 
 /* Peripheral Clock setup */
@@ -114,7 +119,7 @@ uint8_t I2C_Get_Flag_Status(I2C_RegDef_t *pI2Cx, uint32_t Flagname);
 
 void I2C_IRQ_Config(uint8_t IRQNumber,  uint8_t EnorDi);/* This function enables the interrupt, setting up the IRQ number*/
 void I2C_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
-
+void I2C_IRQ_Handling(I2C_Handle_t *pI2C_Handle);
 
 /* Other peripheral control APIs */
 
