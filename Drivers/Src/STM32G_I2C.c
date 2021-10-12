@@ -724,10 +724,16 @@ void I2C_Manage_NACKing(I2C_RegDef_t *pI2Cx, uint8_t EnorDi)
 static void I2C_Close_Receive_Data(I2C_Handle_t *pI2C_Handle)
 {
 
+	pI2C_Handle->TxRxStatus = I2C_READY;
+	pI2C_Handle->pRxBuffer = NULL;
+	pI2C_Handle->RxLen = 0;
+	pI2C_Handle->RxSize = 0;
 }
 static void I2C_Close_Send_Data(I2C_Handle_t *pI2C_Handle)
 {
-
+	pI2C_Handle->TxRxStatus = I2C_READY;
+	pI2C_Handle->pTxBuffer = NULL;
+	pI2C_Handle->TxLen = 0;
 }
 
 /*********************************************************************************************************************************
@@ -889,5 +895,41 @@ void I2C_IRQ_Handling(I2C_Handle_t *pI2C_Handle)
 	if(temp1 && temp2)
 	{
 		/* handle the NACK Reception event */
+		pI2C_Handle->pI2Cx->I2C_ICR |= (1 << I2C_ICR_NACKCF);
 	}
+
+	/**************************************************************************Interrupt Handling for Errors in I2C********************************************/
+
+	temp1 = 0;
+	temp2 = 0;
+
+	/*1. Interrupt handler for bus error */
+	temp1 = pI2C_Handle->pI2Cx->I2C_CR1 & (1 << I2C_CR1_ERRIE);
+	temp2 = pI2C_Handle->pI2Cx->I2C_ISR & (1 << I2C_ISR_BERR);
+
+	if(temp1 && temp2)
+	{
+		/* Handle the bus error */
+		pI2C_Handle->pI2Cx->I2C_ICR |= (1 << I2C_ICR_BERRCF);
+	}
+
+	/*2. Interrupt handler for Arbitration loss */
+	temp2 = pI2C_Handle->pI2Cx->I2C_ISR & (1 << I2C_ISR_ARLO);
+
+	if(temp1 && temp2)
+	{
+		/* Handle the Arbitration loss */
+		pI2C_Handle->pI2Cx->I2C_ICR |= (1 << I2C_ICR_ARLOCF);
+	}
+
+	/*3. Interrupt handler for Overrun/Underrun error */
+	temp2 = pI2C_Handle->pI2Cx->I2C_ISR & (1 << I2C_ISR_OVR);
+
+	if(temp1 && temp2)
+	{
+		/* Handle the Overrun/Underrun error */
+		pI2C_Handle->pI2Cx->I2C_ICR |= (1 << I2C_ICR_OVRCF);
+	}
+
+
 }
