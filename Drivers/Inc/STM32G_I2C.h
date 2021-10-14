@@ -125,6 +125,7 @@ void I2C_IRQ_Handling(I2C_Handle_t *pI2C_Handle);
 
 void I2C_Peripheral_Control(I2C_RegDef_t *pI2Cx, uint8_t EnorDi);
 void I2C_Manage_NACKing(I2C_RegDef_t *pI2Cx, uint8_t EnorDi);
+void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx);
 
 
 /* Application callback */

@@ -16,7 +16,6 @@ static void I2C_GenerateStartCondition(I2C_RegDef_t *pI2Cx);
 static void I2C_ExecuteAddressPhaseWrite(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr);
 static void I2C_ExecuteAddressPhaseRead(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr);
 static void I2C_ClearAddrFlag(I2C_Handle_t *pI2C_Handle);
-static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx);
 static void I2C_Close_Receive_Data(I2C_Handle_t *pI2C_Handle);
 static void I2C_Close_Send_Data(I2C_Handle_t *pI2C_Handle);
 
@@ -543,10 +542,7 @@ void I2C_Peripheral_Control(I2C_RegDef_t *pI2Cx, uint8_t EnorDi)
 		pI2Cx->I2C_CR1 &= ~(1 << I2C_CR1_PE);
 	}
 }
-void I2C_ApplicationEventCallback(I2C_Handle_t *pI2C_Handle, uint8_t Application_Event)
-{
 
-}
 
 
 /**************************************Private Functions for I2C***********************************************************************************************/
@@ -637,7 +633,7 @@ static void I2C_ExecuteAddressPhaseRead(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr)
  *
  * Note 						-
  ************************************************************************************************************************************/
-static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx)
+ void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx)
 {
 	uint32_t tempreg = 0;
 	tempreg |= (1 << I2C_CR2_STOP);
