@@ -428,6 +428,46 @@ uint8_t I2C_MasterReceiveDataInterrupt(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBu
 	}
 	return busystate;
 }
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_SlaveSendData
+ *
+ * Brief 						- It sends data in slave mode
+ *
+ * Param1						- Address of I2Cx peripheral
+ * Param2						- data to be sent
+ * Param3 						-
+ *
+ * Return 						- none
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+void I2C_SlaveSendData(I2C_RegDef_t *pI2C, uint8_t data)
+{
+	pI2C->I2C_TXDR = data;
+}
+
+/*********************************************************************************************************************************
+ *
+ * Function Name 				- I2C_SlaveReceiveData
+ *
+ * Brief 						- It receives data in slave mode
+ *
+ * Param1						- Address of I2Cx peripheral
+ * Param2						-
+ * Param3 						-
+ *
+ * Return 						- Data which is returned
+ *
+ * Note 						-
+ ************************************************************************************************************************************/
+
+uint8_t I2C_SlaveReceiveData(I2C_RegDef_t *pI2C)
+{
+	return (uint8_t) pI2C->I2C_RXDR;
+}
 /*********************************************************************************************************************************
  *
  * Function Name 				- I2C_Get_Flag_Status

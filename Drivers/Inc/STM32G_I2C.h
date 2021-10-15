@@ -85,6 +85,11 @@ typedef struct
 #define I2C_EVENT_TX_COMPLETE 			1
 #define I2C_EVENT_RX_COMPLETE 			2
 #define I2C_EVENT_OVR_ERR	 			3
+#define I2C_EVENT_DATA_REQ 				4
+#define I2C_EVENT_DATA_RCV 				5
+#define I2C_ERROR						6
+#define I2C_EVENT_STOP	 				7
+
 /**********************************************************APIs Supported by this Driver***************************************************************************/
 
 /* Peripheral Clock setup */
@@ -111,6 +116,12 @@ uint8_t I2C_MasterReceiveDataInterrupt(I2C_Handle_t *pI2C_Handle, uint8_t *pRxBu
 /* Get the flag the status */
 uint8_t I2C_Get_Flag_Status(I2C_RegDef_t *pI2Cx, uint32_t Flagname);
 
+
+/*
+ * Send and Receive data using interrupt in Slave mode
+ */
+void I2C_SlaveSendData(I2C_RegDef_t *pI2C, uint8_t data);
+uint8_t I2C_SlaveReceiveData(I2C_RegDef_t *pI2C);
 
 /*
  * IRQ Configuration and ISR Handling
