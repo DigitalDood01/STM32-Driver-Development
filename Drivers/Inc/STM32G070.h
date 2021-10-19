@@ -110,6 +110,22 @@ typedef struct
 	volatile uint32_t SPIx_I2SPR;
 }SPI_RegDef_t;
 
+/* Register definition structure for I2C */
+typedef struct
+{
+	volatile uint32_t I2C_CR1;
+	volatile uint32_t I2C_CR2;
+	volatile uint32_t I2C_OAR1;
+	volatile uint32_t I2C_OAR2;
+	volatile uint32_t I2C_TIMINGR;
+	volatile uint32_t I2C_TIMEOUTR;
+	volatile uint32_t I2C_ISR;
+	volatile uint32_t I2C_ICR;
+	volatile uint32_t I2C_PECR;
+	volatile uint32_t I2C_RXDR;
+	volatile uint32_t I2C_TXDR;
+}I2C_RegDef_t;
+
 /* Register definition structure for RCC(Reset Clock Control)*/
 typedef struct
 {
@@ -232,6 +248,11 @@ typedef struct
 #define SPI2								((SPI_RegDef_t*)SPI2_BASE_ADDR)
 #define SPI3								((SPI_RegDef_t*)SPI3_BASE_ADDR)
 
+/* Macro definition for base addresses for I2Cx peripherals */
+#define I2C1								((I2C_RegDef_t*)I2C1_BASE_ADDR)
+#define I2C2								((I2C_RegDef_t*)I2C2_BASE_ADDR)
+#define I2C3								((I2C_RegDef_t*)I2C3_BASE_ADDR)
+
 /* Clock enable Macros for GPIO peripherals */
 #define GPIOA_PCLOCK_EN()					(RCC->IOPENR |= (1<<0))
 #define GPIOB_PCLOCK_EN()					(RCC->IOPENR |= (1<<1))
@@ -306,6 +327,13 @@ typedef struct
 #define SPI2_REG_RESET()					do{ (RCC->APBENR1 |= (1<<14));  (RCC->APBENR1 &= ~(1<<14)); } while(0)
 #define SPI3_REG_RESET()					do{ (RCC->APBENR1 |= (1<<15));  (RCC->APBENR1 &= ~(1<<15)); } while(0)
 
+/* Macros to reset the I2C peripherals */
+
+#define I2C1_REG_RESET()					do{ (RCC->APBENR1 |= (1<<21));  (RCC->APBENR1 &= ~(1<<21)); } while(0)
+#define I2C2_REG_RESET()					do{ (RCC->APBENR1 |= (1<<22));  (RCC->APBENR1 &= ~(1<<22)); } while(0)
+#define I2C3_REG_RESET()					do{ (RCC->APBENR1 |= (1<<23));  (RCC->APBENR1 &= ~(1<<23)); } while(0)
+
+
 #define GPIO_BASE_ADDR_TO_CODE(x)			((x == GPIOA) ? 00 :\
 											(x == GPIOB) ? 01 :\
 											(x == GPIOC) ? 02 :\
@@ -324,25 +352,19 @@ typedef struct
 #define IRQ_SPI1 							25
 #define IRQ_SPI2_3							26
 
+/* For I2C */
+#define IRQ_I2C1 							23
+#define IRQ_I2C2_3							24
 
 /* Macros for IRQ priority */
 
-#define NVIC_IRQ_PRIORITY0 					0
-#define NVIC_IRQ_PRIORITY1 					1
-#define NVIC_IRQ_PRIORITY2 					2
-#define NVIC_IRQ_PRIORITY3 					3
-#define NVIC_IRQ_PRIORITY4 					4
-#define NVIC_IRQ_PRIORITY5 					5
-#define NVIC_IRQ_PRIORITY6 					6
-#define NVIC_IRQ_PRIORITY7 					7
-#define NVIC_IRQ_PRIORITY8 					8
-#define NVIC_IRQ_PRIORITY9 					9
-#define NVIC_IRQ_PRIORITY10 				10
-#define NVIC_IRQ_PRIORITY11 				11
-#define NVIC_IRQ_PRIORITY12 				12
-#define NVIC_IRQ_PRIORITY13 				13
-#define NVIC_IRQ_PRIORITY14 				14
-#define NVIC_IRQ_PRIORITY15 				15
+#define NVIC_IRQ_PRIORITY_EXTI_0_1 			12
+#define NVIC_IRQ_PRIORITY_EXTI_2_3 			13
+#define NVIC_IRQ_PRIORITY_EXTI_4_15 		14
+#define NVIC_IRQ_PRIORITY_SPI_1 			32
+#define NVIC_IRQ_PRIORITY_SPI_2_3 			33
+#define NVIC_IRQ_PRIORITY_I2C_1 			30
+#define NVIC_IRQ_PRIORITY_I2C_2_3 			31
 
 
 /* Some generic Macros*/
@@ -402,6 +424,96 @@ typedef struct
 #define SPI_SR_FRE							8
 #define SPI_SR_FRVL							9
 #define SPI_SR_FTVL							11
+
+/*****************************************************************************************************************************************************************/
+
+/**************************************************** Bit Position macros for I2C registers*********************************************************************/
+
+/* For I2C_CR1 Register */
+
+#define I2C_CR1_PE							0
+#define I2C_CR1_TXIE						1
+#define I2C_CR1_RXIE						2
+#define I2C_CR1_ADDRIE						3
+#define I2C_CR1_NACKIE						4
+#define I2C_CR1_STOPIE						5
+#define I2C_CR1_TCIE						6
+#define I2C_CR1_ERRIE						7
+#define I2C_CR1_DNF							8
+#define I2C_CR1_ANFOFF						12
+#define I2C_CR1_TXDMAEN						14
+#define I2C_CR1_RXDMAEN						15
+#define I2C_CR1_SBC							16
+#define I2C_CR1_NOSTRETCH					17
+#define I2C_CR1_WUPEN						18
+#define I2C_CR1_GCEN						19
+#define I2C_CR1_SMBHEN						20
+#define I2C_CR1_SMBDEN						21
+#define I2C_CR1_ALERTEN						22
+#define I2C_CR1_PECEN						23
+
+/* For I2C_CR1 Register */
+
+#define I2C_CR2_SADD						0
+#define I2C_CR2_RD_WRN						10
+#define I2C_CR2_ADD10						11
+#define I2C_CR2_HEAD10R						12
+#define I2C_CR2_START						13
+#define I2C_CR2_STOP						14
+#define I2C_CR2_NACK						15
+#define I2C_CR2_NBYTES						23
+#define I2C_CR2_RELOAD						24
+#define I2C_CR2_AUTOEND						25
+#define I2C_CR2_PECBYTE						26
+
+/* For I2C_ISR Register */
+
+#define I2C_ISR_TXE							0
+#define I2C_ISR_TXIS						1
+#define I2C_ISR_RXNE						2
+#define I2C_ISR_ADDR						3
+#define I2C_ISR_NACKF						4
+#define I2C_ISR_STOPF						5
+#define I2C_ISR_TC							6
+#define I2C_ISR_TCR							7
+#define I2C_ISR_BERR						8
+#define I2C_ISR_ARLO						9
+#define I2C_ISR_OVR							10
+#define I2C_ISR_PECRR						11
+#define I2C_ISR_TIMEOUT						12
+#define I2C_ISR_ALERT						13
+#define I2C_ISR_BUSY						15
+#define I2C_ISR_DIR							16
+#define I2C_ISR_ADDCODE						17
+
+/* For I2C_ICR Register */
+
+#define I2C_ICR_ADDRCF						3
+#define I2C_ICR_NACKCF						4
+#define I2C_ICR_STOPCF						5
+#define I2C_ICR_BERRCF						8
+#define I2C_ICR_ARLOCF						9
+#define I2C_ICR_OVRCF						10
+#define I2C_ICR_PECCF						11
+#define I2C_ICR_TIMOUTCF					12
+#define I2C_ICR_ALERTCF						13
+
+/* For I2C_TIMEOUTR Register */
+
+#define I2C_TIMEOUTR_TIMEOUTA				0
+#define I2C_TIMEOUTR_TIDLE					12
+#define I2C_TIMEOUTR_TIMOUTEN				15
+#define I2C_TIMEOUTR_TIMEOUTB				16
+#define I2C_TIMEOUTR_TEXTEN					31
+
+/* For I2C_TIMINGR Register */
+
+#define I2C_TIMINGR_SCLL 					0
+#define I2C_TIMINGR_SCLH 					8
+#define I2C_TIMINGR_SDADEL 					16
+#define I2C_TIMINGR_SCLDEL 					20
+#define I2C_TIMINGR_PRESC 					28
+
 
 
 #endif /* INC_STM32G070_H_ */

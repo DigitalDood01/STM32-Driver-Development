@@ -178,11 +178,11 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx)
 	}
 	else if(pSPIx == SPI2)
 	{
-		SPI1_REG_RESET();
+		SPI2_REG_RESET();
 	}
 	else if(pSPIx == SPI3)
 	{
-		SPI1_REG_RESET();
+		SPI2_REG_RESET();
 	}
 }
 

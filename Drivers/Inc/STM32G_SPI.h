@@ -35,10 +35,6 @@ typedef struct
 	uint32_t 	 RxLen;				/* To store the length of the Rx buffer */
 	uint8_t 	 TxState; 			/* To store the state of TXE flag */
 	uint8_t 	 RxState;			/* To store the state of RXNE flag */
-
-
-
-
 }SPI_Handle_t;
 
 /******************************************* Macros for accessing the elements in SPI_Config_t structure**********************************************************/
@@ -102,6 +98,7 @@ typedef struct
 #define SPI_EVENT_TX_COMPLETE 			1
 #define SPI_EVENT_RX_COMPLETE 			2
 #define SPI_EVENT_OVR_ERR	 			3
+
 /**********************************************************APIs Supported by this Driver***************************************************************************/
 
 /* Peripheral Clock setup */
