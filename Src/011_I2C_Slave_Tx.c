@@ -124,8 +124,7 @@ void I2C_ApplicationEventCallback(I2C_Handle_t *pI2C_Handle, uint8_t Application
 		else if(command_code == 0x52)
 		{
 			/* send the contents of tx buffer */
-			I2C_SlaveSendData(pI2C_Handle->pI2Cx, tx_buff[count]);
-			count++;
+			I2C_SlaveSendData(pI2C_Handle->pI2Cx, tx_buff[count++]);
 		}
 	}
 	else if(Application_Event == I2C_EVENT_DATA_RCV)
