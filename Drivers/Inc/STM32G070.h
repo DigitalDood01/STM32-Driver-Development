@@ -72,11 +72,11 @@
 #define ADC_BASE_ADDR						(APB2PERIPH_BASE + 0x2400)
 #define TIM1_BASE_ADDR						(APB2PERIPH_BASE + 0x2C00)
 #define SPI1_BASE_ADDR						(APB2PERIPH_BASE + 0x3000)
-#define USART1_BASE_ADDR 					(APB2PERIPH_BASE + Ox3800)
-#define USART6_BASE_ADDR					(APB2PERIPH_BASE + Ox3C00)
-#define TIMER15_BASE_ADDR					(APB2PERIPH_BASE + Ox4000)
-#define TIMER16_BASE_ADDR					(APB2PERIPH_BASE + Ox4400)
-#define TIMER17_BASE_ADDR					(APB2PERIPH_BASE + Ox4800)
+#define USART1_BASE_ADDR 					(APB2PERIPH_BASE + 0x3800)
+#define USART6_BASE_ADDR					(APB2PERIPH_BASE + 0x3C00)
+#define TIMER15_BASE_ADDR					(APB2PERIPH_BASE + 0x4000)
+#define TIMER16_BASE_ADDR					(APB2PERIPH_BASE + 0x4400)
+#define TIMER17_BASE_ADDR					(APB2PERIPH_BASE + 0x4800)
 
 
 /**************************************Peripheral register Definition structures *****************************************************************/
@@ -360,6 +360,14 @@ typedef struct
 #define I2C2_REG_RESET()					do{ (RCC->APBENR1 |= (1<<22));  (RCC->APBENR1 &= ~(1<<22)); } while(0)
 #define I2C3_REG_RESET()					do{ (RCC->APBENR1 |= (1<<23));  (RCC->APBENR1 &= ~(1<<23)); } while(0)
 
+/* Macros to reset the USART peripherals */
+
+#define USART1_REG_RESET()					do{ (RCC->APBENR2 |= (1<<14));  (RCC->APBENR2 &= ~(1<<14)); } while(0)
+#define USART2_REG_RESET()					do{ (RCC->APBENR1 |= (1<<17));  (RCC->APBENR1 &= ~(1<<17)); } while(0)
+#define USART3_REG_RESET()					do{ (RCC->APBENR1 |= (1<<18));  (RCC->APBENR1 &= ~(1<<18)); } while(0)
+#define USART4_REG_RESET()					do{ (RCC->APBENR1 |= (1<<19));  (RCC->APBENR1 &= ~(1<<19)); } while(0)
+#define USART5_REG_RESET()					do{ (RCC->APBENR1 |= (1<<8));  (RCC->APBENR1 &= ~(1<<8)); } while(0)
+#define USART6_REG_RESET()					do{ (RCC->APBENR1 |= (1<<9));  (RCC->APBENR1 &= ~(1<<9)); } while(0)
 
 #define GPIO_BASE_ADDR_TO_CODE(x)			((x == GPIOA) ? 00 :\
 											(x == GPIOB) ? 01 :\
