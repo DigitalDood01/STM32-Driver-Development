@@ -126,6 +126,23 @@ typedef struct
 	volatile uint32_t I2C_TXDR;
 }I2C_RegDef_t;
 
+/* Register definition structure for I2C */
+
+typedef struct
+{
+	volatile uint32_t USART_CR1;
+	volatile uint32_t USART_CR2;
+	volatile uint32_t USART_CR3;
+	volatile uint32_t USART_BRR;
+	volatile uint32_t USART_GTPR;
+	volatile uint32_t USART_RTOR;
+	volatile uint32_t USART_RQR;
+	volatile uint32_t USART_ISR;
+	volatile uint32_t USART_ICR;
+	volatile uint32_t USART_RDR;
+	volatile uint32_t USART_TDR;
+	volatile uint32_t USART_PRESC;
+}USART_RegDef_t;
 /* Register definition structure for RCC(Reset Clock Control)*/
 typedef struct
 {
@@ -252,6 +269,16 @@ typedef struct
 #define I2C1								((I2C_RegDef_t*)I2C1_BASE_ADDR)
 #define I2C2								((I2C_RegDef_t*)I2C2_BASE_ADDR)
 #define I2C3								((I2C_RegDef_t*)I2C3_BASE_ADDR)
+
+
+/* Macro definition for base addresses for USARTx peripherals */
+#define USART1								((USART_RegDef_t*)USART1_BASE_ADDR)
+#define USART2								((USART_RegDef_t*)USART2_BASE_ADDR)
+#define USART3								((USART_RegDef_t*)USART3_BASE_ADDR)
+#define USART4								((USART_RegDef_t*)USART4_BASE_ADDR)
+#define USART5								((USART_RegDef_t*)USART5_BASE_ADDR)
+#define USART6								((USART_RegDef_t*)USART6_BASE_ADDR)
+
 
 /* Clock enable Macros for GPIO peripherals */
 #define GPIOA_PCLOCK_EN()					(RCC->IOPENR |= (1<<0))
@@ -513,6 +540,173 @@ typedef struct
 #define I2C_TIMINGR_SDADEL 					16
 #define I2C_TIMINGR_SCLDEL 					20
 #define I2C_TIMINGR_PRESC 					28
+
+/**************************************************** Bit Position macros for USART registers*********************************************************************/
+
+/* For USART_CR1 Register */
+
+#define USART_CR1_RXFFIE 					31
+#define USART_CR1_TXFFIE 					30
+#define USART_CR1_FIFOEN 					29
+#define USART_CR1_M1	 					28
+#define USART_CR1_EOBIE 					27
+#define USART_CR1_RTOIE 					26
+#define USART_CR1_DEAT	 					21
+#define USART_CR1_DEDT	 					16
+#define USART_CR1_OVER8 					15
+#define USART_CR1_CMIE	 					14
+#define USART_CR1_MME	 					13
+#define USART_CR1_M0	 					12
+#define USART_CR1_WAKE	 					11
+#define USART_CR1_PCE	 					10
+#define USART_CR1_PS 						9
+#define USART_CR1_PEIE	 					8
+#define USART_CR1_TXFNFIE 					7
+#define USART_CR1_TCIE	 					6
+#define USART_CR1_RXFNFIE 					5
+#define USART_CR1_IDLEIE 					4
+#define USART_CR1_TE 						3
+#define USART_CR1_RE 						2
+#define USART_CR1_UESM 						1
+#define USART_CR1_UE 						0
+
+
+/* For USART_CR2 Register */
+
+#define USART_CR2_SLVEN 					0
+#define USART_CR2_DIS_NSS 					3
+#define USART_CR2_ADDM7 					4
+#define USART_CR2_LBDL	 					5
+#define USART_CR2_LBDIE 					6
+#define USART_CR2_LBCL	 					8
+#define USART_CR2_CPHA	 					9
+#define USART_CR2_CPOL	 					10
+#define USART_CR2_CLKEN 					11
+#define USART_CR2_STOP	 					12
+#define USART_CR2_LINEN 					14
+#define USART_CR2_SWAP	 					15
+#define USART_CR2_RXINV 					16
+#define USART_CR2_TXINV 					17
+#define USART_CR2_DATAINV 					18
+#define USART_CR2_MSBFIRST 					19
+#define USART_CR2_ABREN 					20
+#define USART_CR2_ABRMOD 					21
+#define USART_CR2_RTOEN 					23
+#define USART_CR2_ADD	 					24
+
+
+/* For USART_CR3 Register */
+
+#define USART_CR3_EIE	 					0
+#define USART_CR3_IREN	 					1
+#define USART_CR3_IRLP	 					2
+#define USART_CR3_HDSEL	 					3
+#define USART_CR3_NACK	 					4
+#define USART_CR3_SCEN	 					5
+#define USART_CR3_DMAR	 					6
+#define USART_CR3_DMAT	 					7
+#define USART_CR3_RTSE	 					8
+#define USART_CR3_CTSE	 					9
+#define USART_CR3_CTSIE	 					10
+#define USART_CR3_ONEBIT	 				11
+#define USART_CR3_OVRDIS	 				12
+#define USART_CR3_DDRE	 					13
+#define USART_CR3_DEM	 					14
+#define USART_CR3_DEP	 					15
+#define USART_CR3_SCARCNT	 				17
+#define USART_CR3_WUS	 					20
+#define USART_CR3_WUFIE	 					22
+#define USART_CR3_TXFTIE	 				23
+#define USART_CR3_TCBGTIE	 				24
+#define USART_CR3_RXFTCFG	 				25
+#define USART_CR3_RXFTIE	 				28
+#define USART_CR3_TXFTCFG	 				29
+#define USART_CR3_TXFTCFG	 				29
+
+/* For USART_ISR Register */
+
+#define USART_ISR_PE		 				0
+#define USART_ISR_FE		 				1
+#define USART_ISR_NE		 				2
+#define USART_ISR_ORE		 				3
+#define USART_ISR_IDLE		 				4
+#define USART_ISR_RXFNE		 				5
+#define USART_ISR_TC		 				6
+#define USART_ISR_TXFNF		 				7
+#define USART_ISR_LBDF		 				8
+#define USART_ISR_CTSIF		 				9
+#define USART_ISR_CTS		 				10
+#define USART_ISR_RTOF		 				11
+#define USART_ISR_EOBF		 				12
+#define USART_ISR_UDR		 				13
+#define USART_ISR_ABRE		 				14
+#define USART_ISR_ABRF		 				15
+#define USART_ISR_BUSY		 				16
+#define USART_ISR_CMF		 				17
+#define USART_ISR_SBKF		 				18
+#define USART_ISR_RWU		 				19
+#define USART_ISR_WUF		 				20
+#define USART_ISR_TEACK		 				21
+#define USART_ISR_REACK		 				22
+#define USART_ISR_TXFE		 				23
+#define USART_ISR_RXFF		 				24
+#define USART_ISR_TCBGT		 				25
+#define USART_ISR_RXFT		 				26
+#define USART_ISR_TXFT		 				27
+#define USART_ISR_WUF		 				20
+
+
+/* For USART_ICR Register */
+
+#define USART_ICR_PECF		 				0
+#define USART_ICR_FECF		 				1
+#define USART_ICR_NECF		 				2
+#define USART_ICR_ORECF		 				3
+#define USART_ICR_IDLECF		 			4
+#define USART_ICR_TXFECF		 			5
+#define USART_ICR_TCCF		 				6
+#define USART_ICR_TCBGTCF		 			7
+#define USART_ICR_LBDCF		 				8
+#define USART_ICR_CTSCF		 				9
+#define USART_ICR_RTOCF		 				10
+#define USART_ICR_EOBCF		 				11
+#define USART_ICR_UDRCF		 				12
+#define USART_ICR_CMCF		 				17
+#define USART_ICR_WUCF		 				20
+
+
+/* For USART_RQR Register */
+
+#define USART_RQR_ABRRQ			 			0
+#define USART_RQR_SBKRQ			 			1
+#define USART_RQR_MMRQ			 			2
+#define USART_RQR_RXFRQ			 			3
+#define USART_RQR_TXFRQ			 			4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
