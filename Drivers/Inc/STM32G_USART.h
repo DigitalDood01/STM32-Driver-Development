@@ -33,7 +33,45 @@ typedef struct
 	USART_RegDef_t *pUSARTx;
 }USART_Handle_t;
 
+/* Possible Modes in USART */
+#define USART_MODE_ONLY_TX 					0
+#define USART_MODE_ONLY_RX 					1
+#define USART_MODE_ONLY_TXRX 				2
 
+/* Possible Baud Rate options in USART */
+#define USART_STD_BAUD_1200					1200
+#define USART_STD_BAUD_2400					1200
+#define USART_STD_BAUD_9600					1200
+#define USART_STD_BAUD_19200				19200
+#define USART_STD_BAUD_38400				38400
+#define USART_STD_BAUD_57600				57600
+#define USART_STD_BAUD_115200				115200
+#define USART_STD_BAUD_230400				230400
+#define USART_STD_BAUD_460800				460800
+#define USART_STD_BAUD_921600				921600
+#define USART_STD_BAUD_2M					2000000
+#define USART_STD_BAUD_3M					3000000
+
+/* Possible PARITY control options in USART */
+#define USART_PARITY_EN_ODD 				1
+#define USART_PARITY_EN_EVEN 				2
+#define USART_PARITY_DISABLE 				0
+
+/* Possible word length options in USART */
+#define USART_WORD_LENGTH_8BITS				0
+#define USART_WORD_LENGTH_16BITS			1
+
+/* Possible stop bits options in USART */
+#define USART_STOPBITS_1					0
+#define USART_STOPBITS_0_5					1
+#define USART_STOPBITS_2					2
+#define USART_STOPBITS_1_5					3
+
+/* Possible Hardware flow control options in USART */
+#define USART_HW_FLOW_CTRL_NONE				0
+#define USART_HW_FLOW_CTRL_CTS				1
+#define USART_HW_FLOW_CTRL_RTS				2
+#define USART_HW_FLOW_CTRL_CTS_RTS			3
 
 /**********************************************************APIs Supported by this Driver***************************************************************************/
 
@@ -73,8 +111,7 @@ void USART_IRQ_Handling(USART_Handle_t *pUSART_Handle);
 /* Other peripheral control APIs */
 
 void USART_Peripheral_Control(USART_RegDef_t *pUSARTx, uint8_t EnorDi);
-void USART_Manage_NACKing(USART_RegDef_t *pUSARTx, uint8_t EnorDi);
-void USART_GenerateStopCondition(USART_RegDef_t *pUSARTx);
+
 
 
 /* Application callback */
