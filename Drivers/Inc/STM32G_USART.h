@@ -19,7 +19,7 @@ typedef struct
 	uint8_t USART_NoOfStopBits;
 	uint8_t USART_WordLength;
 	uint8_t USART_ParityControl;
-	uint8_t USART_HWFlowCOntrol;
+	uint8_t USART_HWFlowControl;
 }USART_Config_t;
 
 
@@ -36,7 +36,7 @@ typedef struct
 /* Possible Modes in USART */
 #define USART_MODE_ONLY_TX 					0
 #define USART_MODE_ONLY_RX 					1
-#define USART_MODE_ONLY_TXRX 				2
+#define USART_MODE_TXRX 					2
 
 /* Possible Baud Rate options in USART */
 #define USART_STD_BAUD_1200					1200
@@ -59,7 +59,7 @@ typedef struct
 
 /* Possible word length options in USART */
 #define USART_WORD_LENGTH_8BITS				0
-#define USART_WORD_LENGTH_16BITS			1
+#define USART_WORD_LENGTH_9BITS				1
 
 /* Possible stop bits options in USART */
 #define USART_STOPBITS_1					0
@@ -72,6 +72,26 @@ typedef struct
 #define USART_HW_FLOW_CTRL_CTS				1
 #define USART_HW_FLOW_CTRL_RTS				2
 #define USART_HW_FLOW_CTRL_CTS_RTS			3
+
+
+/* I2C related status flags definitions */
+
+#define USART_PARITY_ERROR_FLAG					(1 << USART_ISR_PE)
+#define USART_FRAMING_ERROR_FLAG				(1 << USART_ISR_FE)
+#define USART_NOISE_DETECTION_FLAG				(1 << USART_ISR_NE)
+#define USART_OVERRUN_ERROR_FLAG				(1 << USART_ISR_ORE)
+#define USART_IDLE_FLAG							(1 << USART_ISR_IDLE)
+#define USART_RXFNE_FLAG						(1 << USART_ISR_RXFNE)
+#define USART_TC_FLAG							(1 << USART_ISR_TC)
+#define USART_TXFNF_FLAG						(1 << USART_ISR_TXFNF)
+#define USART_LINE_BREAK_FLAG					(1 << USART_ISR_LBDF)
+#define USART_NOISE_DETECTION_FLAG				(1 << USART_ISR_NE)
+#define USART_CTS_FLAG							(1 << USART_ISR_CTS)
+#define USART_BAUD_ERROR_FLAG					(1 << USART_ISR_ABRE)
+#define USART_BUSY_FLAG							(1 << USART_ISR_BUSY)
+#define USART_CHARACTER_MATCH_FLAG				(1 << USART_ISR_CMF)
+#define USART_TXFIFO_FLAG						(1 << USART_ISR_TXFIFO)
+#define USART_RXFIFO_FLAG						(1 << USART_ISR_RXFF)
 
 /**********************************************************APIs Supported by this Driver***************************************************************************/
 
@@ -111,6 +131,7 @@ void USART_IRQ_Handling(USART_Handle_t *pUSART_Handle);
 /* Other peripheral control APIs */
 
 void USART_Peripheral_Control(USART_RegDef_t *pUSARTx, uint8_t EnorDi);
+void USART_SetBaudRate(USART_RegDef_t *pUSARTx, uint32_t BaudRate);
 
 
 
